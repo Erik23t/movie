@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -98,4 +99,34 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Estilos personalizados para a área de membros */
+.bg-gradient-purple-pink {
+  background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+}
+
+.bg-gradient-purple-pink-dark {
+  background: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%);
+}
+
+/* Animações suaves para o carrossel */
+.carousel-item {
+  transition: transform 0.3s ease-in-out;
+}
+
+.carousel-item:hover {
+  transform: scale(1.05);
+}
+
+/* Efeito de hover para botões */
+.btn-gradient {
+  background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+  transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #7C3AED 0%, #DB2777 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
 }
