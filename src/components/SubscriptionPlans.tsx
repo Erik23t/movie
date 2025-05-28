@@ -2,7 +2,6 @@
 import React from 'react';
 import { X, Check, Star, Crown, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import TestimonialsSection from './TestimonialsSection';
 
 interface SubscriptionPlansProps {
   onClose: () => void;
@@ -67,8 +66,8 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="relative w-full max-w-6xl">
+    <div className="fixed inset-0 z-50 bg-black/95 flex items-start justify-center p-4 overflow-y-auto">
+      <div className="relative w-full max-w-7xl my-8">
         {/* Botão fechar */}
         <button
           onClick={onClose}
@@ -78,17 +77,17 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
         </button>
 
         {/* Conteúdo dos planos */}
-        <div className="bg-black/90 backdrop-blur-lg rounded-2xl p-6 sm:p-8 border border-netflix-purple/30">
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-netflix-purple to-netflix-pink bg-clip-text text-transparent">
+        <div className="bg-black/90 backdrop-blur-lg rounded-2xl p-4 sm:p-6 lg:p-8 border border-netflix-purple/30">
+          <div className="text-center mb-6 sm:mb-8 lg:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-netflix-purple to-netflix-pink bg-clip-text text-transparent">
               Escolha Seu Plano
             </h2>
-            <p className="text-gray-300 text-lg sm:text-xl">
+            <p className="text-gray-300 text-base sm:text-lg lg:text-xl">
               Acesse conteúdo exclusivo e premium
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {plans.map((plan) => (
               <div
                 key={plan.id}
@@ -102,16 +101,16 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
                   </div>
                 )}
                 
-                <div className="bg-black rounded-2xl p-6 sm:p-8 h-full">
-                  <div className="text-center mb-6">
+                <div className="bg-black rounded-2xl p-4 sm:p-6 lg:p-8 h-full">
+                  <div className="text-center mb-4 sm:mb-6">
                     <div className={`inline-flex p-3 rounded-full bg-gradient-to-r ${plan.color} mb-4`}>
                       {plan.icon}
                     </div>
-                    <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">
                       {plan.name}
                     </h3>
                     <div className="flex items-baseline justify-center">
-                      <span className="text-3xl sm:text-4xl font-bold text-white">
+                      <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
                         {plan.price}
                       </span>
                       <span className="text-gray-400 ml-1">
@@ -120,7 +119,7 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
                     </div>
                   </div>
 
-                  <ul className="space-y-3 mb-8">
+                  <ul className="space-y-3 mb-6 sm:mb-8">
                     {plan.features.map((feature, index) => (
                       <li key={index} className="flex items-center text-gray-300">
                         <Check className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
@@ -140,11 +139,11 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
             ))}
           </div>
 
-          <div className="mt-8 sm:mt-12 text-center">
+          <div className="mt-6 sm:mt-8 lg:mt-12 text-center">
             <p className="text-gray-400 text-sm sm:text-base mb-4">
               ✓ Cancele a qualquer momento • ✓ Sem compromisso • ✓ Acesso imediato
             </p>
-            <div className="flex flex-wrap justify-center gap-4 text-xs sm:text-sm text-gray-500">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
               <span>Pagamento 100% seguro</span>
               <span>•</span>
               <span>Garantia de 7 dias</span>
@@ -152,9 +151,6 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
               <span>Suporte 24/7</span>
             </div>
           </div>
-
-          {/* Seção de Comentários */}
-          <TestimonialsSection />
         </div>
       </div>
     </div>

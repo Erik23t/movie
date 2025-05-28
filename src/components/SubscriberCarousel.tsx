@@ -65,12 +65,12 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
 
   const getItemsPerView = () => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth < 640) return 1; // Mobile: 1 item
-      if (window.innerWidth < 768) return 2; // Tablet: 2 items
-      if (window.innerWidth < 1024) return 3; // Small desktop: 3 items
-      return 4; // Large desktop: 4 items
+      if (window.innerWidth < 640) return 2; // Mobile: 2 items
+      if (window.innerWidth < 768) return 3; // Tablet: 3 items
+      if (window.innerWidth < 1024) return 4; // Small desktop: 4 items
+      return 5; // Large desktop: 5 items
     }
-    return 4;
+    return 5;
   };
 
   const [itemsPerView, setItemsPerView] = useState(getItemsPerView());
@@ -138,25 +138,26 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-full h-60 sm:h-80 object-cover rounded-lg filter grayscale"
+                    className="w-full object-cover rounded-lg filter grayscale"
+                    style={{ width: '112px', height: '156.8px' }}
                   />
                   {/* Overlay escuro para dar efeito de bloqueado */}
                   <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center">
                     <div className="text-center">
-                      <div className="bg-gradient-purple-pink p-3 sm:p-4 rounded-full mb-2 sm:mb-3 mx-auto w-fit">
-                        <Lock className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+                      <div className="bg-gradient-purple-pink p-2 sm:p-3 rounded-full mb-1 sm:mb-2 mx-auto w-fit">
+                        <Lock className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
                       </div>
-                      <p className="text-white text-xs sm:text-sm font-semibold">VIP</p>
+                      <p className="text-white text-xs font-semibold">VIP</p>
                     </div>
                   </div>
                   {/* Efeito hover */}
                   <div className="absolute inset-0 bg-gradient-purple-pink/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
                 </div>
-                <div className="mt-2 sm:mt-3 text-center">
-                  <h3 className="text-sm sm:text-lg font-semibold bg-gradient-to-r from-netflix-purple to-netflix-pink bg-clip-text text-transparent">
+                <div className="mt-2 text-center">
+                  <h3 className="text-xs sm:text-sm font-semibold bg-gradient-to-r from-netflix-purple to-netflix-pink bg-clip-text text-transparent">
                     {item.name}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-400 mt-1">Exclusivo VIP</p>
+                  <p className="text-xs text-gray-400 mt-1">Exclusivo VIP</p>
                 </div>
               </div>
             </div>

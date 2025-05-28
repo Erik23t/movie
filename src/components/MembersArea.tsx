@@ -6,6 +6,7 @@ import VideoPlayer from './VideoPlayer';
 import ModelCarousel from './ModelCarousel';
 import SubscriberCarousel from './SubscriberCarousel';
 import SubscriptionPlans from './SubscriptionPlans';
+import TestimonialsSection from './TestimonialsSection';
 
 const MembersArea = () => {
   const [showVideo, setShowVideo] = useState(false);
@@ -62,6 +63,11 @@ const MembersArea = () => {
           Conteúdo Exclusivo VIP
         </h2>
         <SubscriberCarousel onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
+      </div>
+
+      {/* Seção de Comentários */}
+      <div className="py-8 sm:py-16 px-4 sm:px-8">
+        <TestimonialsSection />
       </div>
 
       {/* Player de Vídeo */}
