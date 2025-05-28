@@ -5,9 +5,11 @@ import { Button } from '@/components/ui/button';
 import VideoPlayer from './VideoPlayer';
 import ModelCarousel from './ModelCarousel';
 import SubscriberCarousel from './SubscriberCarousel';
+import SubscriptionPlans from './SubscriptionPlans';
 
 const MembersArea = () => {
   const [showVideo, setShowVideo] = useState(false);
+  const [showSubscriptionPlans, setShowSubscriptionPlans] = useState(false);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -59,7 +61,7 @@ const MembersArea = () => {
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center bg-gradient-to-r from-netflix-purple to-netflix-pink bg-clip-text text-transparent">
           Conteúdo Exclusivo VIP
         </h2>
-        <SubscriberCarousel />
+        <SubscriberCarousel onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
       </div>
 
       {/* Player de Vídeo */}
@@ -68,6 +70,11 @@ const MembersArea = () => {
           videoUrl="https://d29xs8vub7bm1d.cloudfront.net/Psychological%20_hack_%20-%201280x720%202604K.mp4"
           onClose={() => setShowVideo(false)}
         />
+      )}
+
+      {/* Planos de Assinatura */}
+      {showSubscriptionPlans && (
+        <SubscriptionPlans onClose={() => setShowSubscriptionPlans(false)} />
       )}
     </div>
   );

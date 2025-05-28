@@ -2,7 +2,11 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Lock } from 'lucide-react';
 
-const SubscriberCarousel = () => {
+interface SubscriberCarouselProps {
+  onSubscriptionClick: () => void;
+}
+
+const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Imagens em preto e branco para conteúdo exclusivo
@@ -93,7 +97,7 @@ const SubscriberCarousel = () => {
   const translatePercentage = (100 / itemsPerView) * currentIndex;
 
   const handleSubscriberClick = () => {
-    alert('Conteúdo exclusivo! Faça upgrade para Premium para acessar este conteúdo.');
+    onSubscriptionClick();
   };
 
   return (
@@ -169,7 +173,10 @@ const SubscriberCarousel = () => {
           <p className="text-sm sm:text-base text-gray-200 mb-4">
             Acesse conteúdo premium e exclusivo com nossa assinatura VIP
           </p>
-          <button className="bg-white text-black px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors duration-300">
+          <button 
+            onClick={onSubscriptionClick}
+            className="bg-white text-black px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors duration-300"
+          >
             Assinar Agora
           </button>
         </div>

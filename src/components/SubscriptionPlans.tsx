@@ -1,0 +1,160 @@
+
+import React from 'react';
+import { X, Check, Star, Crown, Zap } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+interface SubscriptionPlansProps {
+  onClose: () => void;
+}
+
+const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
+  const plans = [
+    {
+      id: 'basic',
+      name: 'Básico',
+      price: 'R$ 19,90',
+      period: '/mês',
+      icon: <Star className="h-8 w-8" />,
+      color: 'from-gray-600 to-gray-800',
+      features: [
+        'Acesso a conteúdo básico',
+        'Qualidade HD',
+        '1 dispositivo simultâneo',
+        'Suporte por email'
+      ]
+    },
+    {
+      id: 'premium',
+      name: 'Premium',
+      price: 'R$ 39,90',
+      period: '/mês',
+      icon: <Crown className="h-8 w-8" />,
+      color: 'from-netflix-purple to-netflix-pink',
+      features: [
+        'Acesso a todo conteúdo',
+        'Qualidade 4K Ultra HD',
+        '3 dispositivos simultâneos',
+        'Conteúdo exclusivo VIP',
+        'Suporte prioritário',
+        'Download offline'
+      ],
+      popular: true
+    },
+    {
+      id: 'vip',
+      name: 'VIP Exclusivo',
+      price: 'R$ 79,90',
+      period: '/mês',
+      icon: <Zap className="h-8 w-8" />,
+      color: 'from-yellow-500 to-orange-600',
+      features: [
+        'Acesso completo ilimitado',
+        'Qualidade 8K',
+        '5 dispositivos simultâneos',
+        'Conteúdo exclusivo premium',
+        'Lives exclusivas',
+        'Suporte VIP 24/7',
+        'Acesso antecipado'
+      ]
+    }
+  ];
+
+  const handleSubscribe = (planId: string) => {
+    // Aqui você pode integrar com sua lógica de pagamento
+    console.log(`Selecionado plano: ${planId}`);
+    alert(`Redirecionando para pagamento do plano ${planId}`);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="relative w-full max-w-6xl">
+        {/* Botão fechar */}
+        <button
+          onClick={onClose}
+          className="absolute -top-4 right-0 sm:-top-8 sm:right-4 bg-gradient-purple-pink p-2 sm:p-3 rounded-full hover:bg-gradient-purple-pink-dark transition-all duration-300 transform hover:scale-110 z-10"
+        >
+          <X className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+        </button>
+
+        {/* Conteúdo dos planos */}
+        <div className="bg-black/90 backdrop-blur-lg rounded-2xl p-6 sm:p-8 border border-netflix-purple/30">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-netflix-purple to-netflix-pink bg-clip-text text-transparent">
+              Escolha Seu Plano
+            </h2>
+            <p className="text-gray-300 text-lg sm:text-xl">
+              Acesse conteúdo exclusivo e premium
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {plans.map((plan) => (
+              <div
+                key={plan.id}
+                className={`relative bg-gradient-to-b ${plan.color} p-1 rounded-2xl transform transition-all duration-300 hover:scale-105 ${
+                  plan.popular ? 'ring-4 ring-netflix-pink/50 scale-105' : ''
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-purple-pink px-4 py-2 rounded-full text-white text-sm font-bold">
+                    MAIS POPULAR
+                  </div>
+                )}
+                
+                <div className="bg-black rounded-2xl p-6 sm:p-8 h-full">
+                  <div className="text-center mb-6">
+                    <div className={`inline-flex p-3 rounded-full bg-gradient-to-r ${plan.color} mb-4`}>
+                      {plan.icon}
+                    </div>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                      {plan.name}
+                    </h3>
+                    <div className="flex items-baseline justify-center">
+                      <span className="text-3xl sm:text-4xl font-bold text-white">
+                        {plan.price}
+                      </span>
+                      <span className="text-gray-400 ml-1">
+                        {plan.period}
+                      </span>
+                    </div>
+                  </div>
+
+                  <ul className="space-y-3 mb-8">
+                    {plan.features.map((feature, index) => (
+                      <li key={index} className="flex items-center text-gray-300">
+                        <Check className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
+                        <span className="text-sm sm:text-base">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Button
+                    onClick={() => handleSubscribe(plan.id)}
+                    className={`w-full bg-gradient-to-r ${plan.color} hover:opacity-90 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105`}
+                  >
+                    Assinar {plan.name}
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 sm:mt-12 text-center">
+            <p className="text-gray-400 text-sm sm:text-base mb-4">
+              ✓ Cancele a qualquer momento • ✓ Sem compromisso • ✓ Acesso imediato
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 text-xs sm:text-sm text-gray-500">
+              <span>Pagamento 100% seguro</span>
+              <span>•</span>
+              <span>Garantia de 7 dias</span>
+              <span>•</span>
+              <span>Suporte 24/7</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SubscriptionPlans;
