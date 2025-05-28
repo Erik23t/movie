@@ -30,13 +30,13 @@ const VideoPlayer = ({ videoUrl, onClose }: VideoPlayerProps) => {
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-2 sm:p-4">
       <div className="relative w-full max-w-6xl">
         <button
           onClick={onClose}
-          className="absolute -top-12 right-0 bg-gradient-purple-pink p-2 rounded-full hover:bg-gradient-purple-pink-dark transition-all duration-300 transform hover:scale-110"
+          className="absolute -top-8 sm:-top-12 right-0 bg-gradient-purple-pink p-2 rounded-full hover:bg-gradient-purple-pink-dark transition-all duration-300 transform hover:scale-110"
         >
-          <X className="h-6 w-6" />
+          <X className="h-4 w-4 sm:h-6 sm:w-6" />
         </button>
         
         <div className="relative bg-gradient-purple-pink p-1 rounded-lg">
@@ -45,6 +45,7 @@ const VideoPlayer = ({ videoUrl, onClose }: VideoPlayerProps) => {
             controls
             className="w-full h-auto rounded-lg"
             preload="metadata"
+            playsInline
           >
             <source src={videoUrl} type="video/mp4" />
             Seu navegador não suporta o elemento de vídeo.
