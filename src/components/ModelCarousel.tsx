@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
 import { useSwipeable } from 'react-swipeable';
 
@@ -11,58 +11,71 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchedImages, setTouchedImages] = useState<Set<number>>(new Set());
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
 
-  // Imagens de modelos (usando placeholders realistas)
+  // Primeiro item é um vídeo, depois as imagens de modelos
   const models = [
     {
+      id: 0,
+      type: 'video' as const,
+      video: "https://app.vidzflow.com/v/HT18AEHP2v?dq=576&ap=false&muted=false&loop=false&ctp=true&bv=false&piv=false&playsinline=false&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen",
+      name: "Vídeo Principal"
+    },
+    {
       id: 1,
+      type: 'image' as const,
       image: "https://images.unsplash.com/photo-1494790108755-2616b812b647?w=400&h=600&fit=crop&crop=face",
       name: "Modelo 1"
     },
     {
       id: 2,
+      type: 'image' as const,
       image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=600&fit=crop&crop=face",
       name: "Modelo 2"
     },
     {
       id: 3,
+      type: 'image' as const,
       image: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=400&h=600&fit=crop&crop=face",
       name: "Modelo 3"
     },
     {
       id: 4,
+      type: 'image' as const,
       image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400&h=600&fit=crop&crop=face",
       name: "Modelo 4"
     },
     {
       id: 5,
+      type: 'image' as const,
       image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=600&fit=crop&crop=face",
       name: "Modelo 5"
     },
     {
       id: 6,
+      type: 'image' as const,
       image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop&crop=face",
       name: "Modelo 6"
     },
     {
       id: 7,
+      type: 'image' as const,
       image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=600&fit=crop&crop=face",
       name: "Modelo 7"
     },
     {
       id: 8,
+      type: 'image' as const,
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop&crop=face",
       name: "Modelo 8"
     },
     {
       id: 9,
+      type: 'image' as const,
       image: "https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=400&h=600&fit=crop&crop=face",
       name: "Modelo 9"
-    },
-    {
-      id: 10,
-      image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400&h=600&fit=crop&crop=face",
-      name: "Modelo 10"
     }
   ];
 
@@ -88,6 +101,15 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    // Auto-play do vídeo com loop
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.loop = true;
+      videoRef.current.play().catch(console.error);
+    }
+  }, []);
+
   const maxIndex = Math.max(0, models.length - itemsPerView);
 
   const nextSlide = () => {
@@ -104,6 +126,15 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
     }
   };
 
+  const handleVideoClick = (videoUrl: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    if (isMobile) {
+      setSelectedVideo(videoUrl);
+    } else {
+      onVideoClick();
+    }
+  };
+
   const handleImageClick = (modelId: number, imageUrl: string, event: React.MouseEvent) => {
     event.stopPropagation();
     if (isMobile) {
@@ -111,6 +142,18 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
     } else {
       onVideoClick();
     }
+  };
+
+  const closeVideoModal = () => {
+    if (modalVideoRef.current) {
+      modalVideoRef.current.pause();
+      modalVideoRef.current.currentTime = 0;
+    }
+    setSelectedVideo(null);
+  };
+
+  const handleVideoEnded = () => {
+    closeVideoModal();
   };
 
   const swipeHandlers = useSwipeable({
@@ -149,29 +192,61 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
               className="flex-shrink-0"
               style={{ width: `${100 / itemsPerView}%` }}
             >
-              <div 
-                className="relative group cursor-pointer transform transition-all duration-300 hover:scale-105"
-                onTouchStart={() => handleImageTouch(model.id)}
-                onClick={(e) => handleImageClick(model.id, model.image, e)}
-              >
+              <div className="relative group cursor-pointer transform transition-all duration-300 hover:scale-105">
                 <div className="relative overflow-hidden">
-                  <img
-                    src={model.image}
-                    alt={model.name}
-                    className={`w-full object-cover transition-all duration-300 ${
-                      isMobile && !touchedImages.has(model.id) 
-                        ? 'filter grayscale' 
-                        : !isMobile 
-                          ? 'filter grayscale hover:filter-none' 
-                          : ''
-                    }`}
-                    style={{ width: '152px', height: '250px' }}
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="bg-white/20 backdrop-blur-sm p-2 sm:p-3 rounded-full">
-                      <Play className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
+                  {model.type === 'video' ? (
+                    <div
+                      className="relative"
+                      onTouchStart={() => handleImageTouch(model.id)}
+                      onClick={(e) => handleVideoClick(model.video, e)}
+                    >
+                      <video
+                        ref={videoRef}
+                        className={`w-full object-cover transition-all duration-300 ${
+                          isMobile && !touchedImages.has(model.id) 
+                            ? 'filter grayscale' 
+                            : !isMobile 
+                              ? 'filter grayscale hover:filter-none' 
+                              : ''
+                        }`}
+                        style={{ width: '152px', height: '250px' }}
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      >
+                        <source src={model.video} type="video/mp4" />
+                      </video>
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="bg-white/20 backdrop-blur-sm p-2 sm:p-3 rounded-full">
+                          <Play className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div
+                      onTouchStart={() => handleImageTouch(model.id)}
+                      onClick={(e) => handleImageClick(model.id, model.image, e)}
+                    >
+                      <img
+                        src={model.image}
+                        alt={model.name}
+                        className={`w-full object-cover transition-all duration-300 ${
+                          isMobile && !touchedImages.has(model.id) 
+                            ? 'filter grayscale' 
+                            : !isMobile 
+                              ? 'filter grayscale hover:filter-none' 
+                              : ''
+                        }`}
+                        style={{ width: '152px', height: '250px' }}
+                      />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="bg-white/20 backdrop-blur-sm p-2 sm:p-3 rounded-full">
+                          <Play className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="mt-2 text-center">
                   <h3 className="text-xs sm:text-sm font-semibold text-white">
@@ -184,7 +259,7 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
         </div>
       </div>
 
-      {/* Modal de visualização completa */}
+      {/* Modal de visualização completa de imagem */}
       {selectedImage && (
         <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4">
           <div className="relative w-full h-full flex items-center justify-center">
@@ -199,6 +274,31 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
               alt="Visualização completa"
               className="max-w-full max-h-full object-contain"
             />
+          </div>
+        </div>
+      )}
+
+      {/* Modal de visualização completa de vídeo */}
+      {selectedVideo && (
+        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4">
+          <div className="relative w-full h-full flex items-center justify-center">
+            <button
+              onClick={closeVideoModal}
+              className="absolute top-4 right-4 bg-white text-black p-2 rounded-full hover:bg-gray-200 transition-all duration-300 z-10"
+            >
+              <X className="h-6 w-6" />
+            </button>
+            <video
+              ref={modalVideoRef}
+              className="max-w-full max-h-full object-contain"
+              controls
+              autoPlay
+              onEnded={handleVideoEnded}
+              preload="metadata"
+            >
+              <source src={selectedVideo} type="video/mp4" />
+              Seu navegador não suporta o elemento de vídeo.
+            </video>
           </div>
         </div>
       )}
