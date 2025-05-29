@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
 import { useSwipeable } from 'react-swipeable';
@@ -12,15 +11,13 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   const [touchedImages, setTouchedImages] = useState<Set<number>>(new Set());
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const modalVideoRef = useRef<HTMLVideoElement>(null);
 
   // Primeiro item é um vídeo, depois as imagens de modelos
   const models = [
     {
       id: 0,
       type: 'video' as const,
-      video: "https://app.vidzflow.com/v/HT18AEHP2v?dq=576&ap=false&muted=false&loop=false&ctp=true&bv=false&piv=false&playsinline=false&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen",
+      video: "https://app.vidzflow.com/v/HT18AEHP2v?dq=576&ap=false&muted=true&loop=true&ctp=true&bv=false&piv=false&playsinline=true&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen",
       name: "Vídeo Principal"
     },
     {
@@ -101,15 +98,6 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
-    // Auto-play do vídeo com loop
-    if (videoRef.current) {
-      videoRef.current.muted = true;
-      videoRef.current.loop = true;
-      videoRef.current.play().catch(console.error);
-    }
-  }, []);
-
   const maxIndex = Math.max(0, models.length - itemsPerView);
 
   const nextSlide = () => {
@@ -129,7 +117,8 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   const handleVideoClick = (videoUrl: string, event: React.MouseEvent) => {
     event.stopPropagation();
     if (isMobile) {
-      setSelectedVideo(videoUrl);
+      const fullscreenVideo = videoUrl.replace('muted=true&loop=true', 'muted=false&loop=false');
+      setSelectedVideo(fullscreenVideo);
     } else {
       onVideoClick();
     }
@@ -145,15 +134,7 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   };
 
   const closeVideoModal = () => {
-    if (modalVideoRef.current) {
-      modalVideoRef.current.pause();
-      modalVideoRef.current.currentTime = 0;
-    }
     setSelectedVideo(null);
-  };
-
-  const handleVideoEnded = () => {
-    closeVideoModal();
   };
 
   const swipeHandlers = useSwipeable({
@@ -200,23 +181,24 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
                       onTouchStart={() => handleImageTouch(model.id)}
                       onClick={(e) => handleVideoClick(model.video, e)}
                     >
-                      <video
-                        ref={videoRef}
-                        className={`w-full object-cover transition-all duration-300 ${
-                          isMobile && !touchedImages.has(model.id) 
-                            ? 'filter grayscale' 
-                            : !isMobile 
-                              ? 'filter grayscale hover:filter-none' 
-                              : ''
-                        }`}
-                        style={{ width: '152px', height: '250px' }}
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                      >
-                        <source src={model.video} type="video/mp4" />
-                      </video>
+                      <div className="relative" style={{ width: '152px', height: '250px' }}>
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          src={model.video}
+                          title={model.name}
+                          style={{ 
+                            aspectRatio: '0.608',
+                            width: '152px',
+                            height: '250px',
+                            objectFit: 'cover'
+                          }}
+                          frameBorder="0"
+                          scrolling="no"
+                          allow="autoplay; fullscreen"
+                          className="transition-all duration-300"
+                        />
+                      </div>
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <div className="bg-white/20 backdrop-blur-sm p-2 sm:p-3 rounded-full">
                           <Play className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
@@ -288,17 +270,20 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
             >
               <X className="h-6 w-6" />
             </button>
-            <video
-              ref={modalVideoRef}
-              className="max-w-full max-h-full object-contain"
-              controls
-              autoPlay
-              onEnded={handleVideoEnded}
-              preload="metadata"
-            >
-              <source src={selectedVideo} type="video/mp4" />
-              Seu navegador não suporta o elemento de vídeo.
-            </video>
+            <iframe
+              width="100%"
+              height="100%"
+              src={selectedVideo}
+              title="Vídeo em tela cheia"
+              style={{ 
+                maxWidth: '100%',
+                maxHeight: '100%'
+              }}
+              frameBorder="0"
+              scrolling="no"
+              allow="autoplay; fullscreen"
+              className="object-contain"
+            />
           </div>
         </div>
       )}
