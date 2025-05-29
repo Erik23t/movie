@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
+import { useSwipeable } from 'react-swipeable';
 
 interface ModelCarouselProps {
   onVideoClick: () => void;
@@ -8,6 +9,8 @@ interface ModelCarouselProps {
 
 const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [touchedImages, setTouchedImages] = useState<Set<number>>(new Set());
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // Imagens de modelos (usando placeholders realistas)
   const models = [
@@ -72,12 +75,15 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   };
 
   const [itemsPerView, setItemsPerView] = useState(getItemsPerView());
+  const [isMobile, setIsMobile] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       setItemsPerView(getItemsPerView());
+      setIsMobile(window.innerWidth < 640);
     };
 
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -91,6 +97,27 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   };
+
+  const handleImageTouch = (modelId: number) => {
+    if (isMobile) {
+      setTouchedImages(prev => new Set([...prev, modelId]));
+    }
+  };
+
+  const handleImageClick = (modelId: number, imageUrl: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    if (isMobile) {
+      setSelectedImage(imageUrl);
+    } else {
+      onVideoClick();
+    }
+  };
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: nextSlide,
+    onSwipedRight: prevSlide,
+    trackMouse: true
+  });
 
   const translatePercentage = (100 / itemsPerView) * currentIndex;
 
@@ -111,7 +138,7 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
         </button>
       </div>
       
-      <div className="overflow-hidden">
+      <div className="overflow-hidden" {...swipeHandlers}>
         <div 
           className="flex transition-transform duration-500 ease-in-out gap-1"
           style={{ transform: `translateX(-${translatePercentage}%)` }}
@@ -124,13 +151,20 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
             >
               <div 
                 className="relative group cursor-pointer transform transition-all duration-300 hover:scale-105"
-                onClick={onVideoClick}
+                onTouchStart={() => handleImageTouch(model.id)}
+                onClick={(e) => handleImageClick(model.id, model.image, e)}
               >
                 <div className="relative overflow-hidden">
                   <img
                     src={model.image}
                     alt={model.name}
-                    className="w-full object-cover"
+                    className={`w-full object-cover transition-all duration-300 ${
+                      isMobile && !touchedImages.has(model.id) 
+                        ? 'filter grayscale' 
+                        : !isMobile 
+                          ? 'filter grayscale hover:filter-none' 
+                          : ''
+                    }`}
                     style={{ width: '152px', height: '250px' }}
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -149,6 +183,25 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
           ))}
         </div>
       </div>
+
+      {/* Modal de visualização completa */}
+      {selectedImage && (
+        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4">
+          <div className="relative w-full h-full flex items-center justify-center">
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 bg-white text-black p-2 rounded-full hover:bg-gray-200 transition-all duration-300 z-10"
+            >
+              <X className="h-6 w-6" />
+            </button>
+            <img
+              src={selectedImage}
+              alt="Visualização completa"
+              className="max-w-full max-h-full object-contain"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

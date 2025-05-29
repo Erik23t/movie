@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Play } from 'lucide-react';
+import { Play, Crown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import VideoPlayer from './VideoPlayer';
 import ModelCarousel from './ModelCarousel';
@@ -15,7 +15,7 @@ const MembersArea = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Banner Principal com Imagem */}
-      <div className="relative h-screen bg-black overflow-hidden">
+      <div className="relative h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 overflow-hidden">
         {/* Imagem de fundo do banner */}
         <div className="absolute inset-0">
           <img
@@ -23,7 +23,7 @@ const MembersArea = () => {
             alt="Banner background"
             className="w-full h-full object-cover filter grayscale"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/90"></div>
         </div>
         
         <div className="relative z-10 flex items-center justify-center h-full px-4 sm:px-8">
@@ -34,13 +34,25 @@ const MembersArea = () => {
             <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-gray-200 px-4">
               Conteúdo premium especialmente selecionado para você
             </p>
-            <Button 
-              onClick={() => setShowVideo(true)}
-              className="bg-white text-black hover:bg-gray-200 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105"
-            >
-              <Play className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
-              Reproduzir Conteúdo
-            </Button>
+            
+            {/* Botões do Banner */}
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+              <Button 
+                onClick={() => setShowVideo(true)}
+                className="bg-white text-black hover:bg-gray-200 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105"
+              >
+                <Play className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
+                Reproduzir Conteúdo
+              </Button>
+              
+              <Button 
+                onClick={() => setShowSubscriptionPlans(true)}
+                className="bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-700 hover:to-gray-800 border border-gray-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105"
+              >
+                <Crown className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
+                Assinar VIP
+              </Button>
+            </div>
           </div>
         </div>
         
@@ -65,7 +77,7 @@ const MembersArea = () => {
       </div>
 
       {/* Seção de Comentários */}
-      <div className="py-8 sm:py-16 px-4 sm:px-8">
+      <div className="py-8 sm:py-16 px-4 sm:px-8 bg-gradient-to-br from-gray-900 via-black to-gray-800">
         <TestimonialsSection />
       </div>
 

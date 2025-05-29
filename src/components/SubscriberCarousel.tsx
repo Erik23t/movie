@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Lock } from 'lucide-react';
+import { useSwipeable } from 'react-swipeable';
 
 interface SubscriberCarouselProps {
   onSubscriptionClick: () => void;
@@ -73,7 +74,7 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
 
   const [itemsPerView, setItemsPerView] = useState(getItemsPerView());
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       setItemsPerView(getItemsPerView());
     };
@@ -91,6 +92,12 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   };
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: nextSlide,
+    onSwipedRight: prevSlide,
+    trackMouse: true
+  });
 
   const translatePercentage = (100 / itemsPerView) * currentIndex;
 
@@ -115,7 +122,7 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
         </button>
       </div>
       
-      <div className="overflow-hidden">
+      <div className="overflow-hidden" {...swipeHandlers}>
         <div 
           className="flex transition-transform duration-500 ease-in-out gap-1"
           style={{ transform: `translateX(-${translatePercentage}%)` }}
@@ -163,16 +170,16 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
       
       {/* Mensagem de assinatura */}
       <div className="mt-6 sm:mt-8 text-center">
-        <div className="bg-white text-black p-4 sm:p-6 rounded-lg">
+        <div className="bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white p-4 sm:p-6 rounded-lg border border-gray-700">
           <h3 className="text-lg sm:text-xl font-bold mb-2">
             Conteúdo Exclusivo VIP
           </h3>
-          <p className="text-sm sm:text-base text-gray-700 mb-4">
+          <p className="text-sm sm:text-base text-gray-300 mb-4">
             Acesse conteúdo premium e exclusivo com nossa assinatura VIP
           </p>
           <button 
             onClick={onSubscriptionClick}
-            className="bg-black text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold hover:bg-gray-800 transition-colors duration-300"
+            className="bg-white text-black px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300"
           >
             Assinar Agora
           </button>
