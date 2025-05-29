@@ -66,11 +66,9 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
   const getItemsPerView = () => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth < 640) return 2; // Mobile: 2 items
-      if (window.innerWidth < 768) return 3; // Tablet: 3 items
-      if (window.innerWidth < 1024) return 4; // Small desktop: 4 items
-      return 5; // Large desktop: 5 items
+      return 10; // Desktop: 10 items
     }
-    return 5;
+    return 10;
   };
 
   const [itemsPerView, setItemsPerView] = useState(getItemsPerView());
@@ -87,11 +85,11 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
   const maxIndex = Math.max(0, exclusiveContent.length - itemsPerView);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % (maxIndex + 1));
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + maxIndex + 1) % (maxIndex + 1));
+    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   };
 
   const translatePercentage = (100 / itemsPerView) * currentIndex;
@@ -105,15 +103,13 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={prevSlide}
-          className="bg-gradient-purple-pink p-2 sm:p-3 rounded-full hover:bg-gradient-purple-pink-dark transition-all duration-300 transform hover:scale-110 z-10"
-          disabled={currentIndex === 0}
+          className="bg-white text-black p-2 sm:p-3 rounded-full hover:bg-gray-200 transition-all duration-300 transform hover:scale-110 z-10"
         >
           <ChevronLeft className="h-4 w-4 sm:h-6 sm:w-6" />
         </button>
         <button
           onClick={nextSlide}
-          className="bg-gradient-purple-pink p-2 sm:p-3 rounded-full hover:bg-gradient-purple-pink-dark transition-all duration-300 transform hover:scale-110 z-10"
-          disabled={currentIndex === maxIndex}
+          className="bg-white text-black p-2 sm:p-3 rounded-full hover:bg-gray-200 transition-all duration-300 transform hover:scale-110 z-10"
         >
           <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6" />
         </button>
@@ -121,40 +117,40 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
       
       <div className="overflow-hidden">
         <div 
-          className="flex transition-transform duration-500 ease-in-out"
+          className="flex transition-transform duration-500 ease-in-out gap-1"
           style={{ transform: `translateX(-${translatePercentage}%)` }}
         >
           {exclusiveContent.map((item) => (
             <div
               key={item.id}
-              className={`flex-shrink-0 px-1 sm:px-2`}
+              className="flex-shrink-0"
               style={{ width: `${100 / itemsPerView}%` }}
             >
               <div 
                 className="relative group cursor-pointer transform transition-all duration-300 hover:scale-105"
                 onClick={handleSubscriberClick}
               >
-                <div className="relative overflow-hidden rounded-lg bg-gradient-purple-pink p-1">
+                <div className="relative overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-full object-cover rounded-lg filter grayscale"
-                    style={{ width: '112px', height: '156.8px' }}
+                    className="w-full object-cover filter grayscale"
+                    style={{ width: '152px', height: '250px' }}
                   />
                   {/* Overlay escuro para dar efeito de bloqueado */}
-                  <div className="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                     <div className="text-center">
-                      <div className="bg-gradient-purple-pink p-2 sm:p-3 rounded-full mb-1 sm:mb-2 mx-auto w-fit">
-                        <Lock className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
+                      <div className="bg-white text-black p-2 sm:p-3 rounded-full mb-1 sm:mb-2 mx-auto w-fit">
+                        <Lock className="h-4 w-4 sm:h-6 sm:w-6" />
                       </div>
                       <p className="text-white text-xs font-semibold">VIP</p>
                     </div>
                   </div>
                   {/* Efeito hover */}
-                  <div className="absolute inset-0 bg-gradient-purple-pink/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                  <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <div className="mt-2 text-center">
-                  <h3 className="text-xs sm:text-sm font-semibold bg-gradient-to-r from-netflix-purple to-netflix-pink bg-clip-text text-transparent">
+                  <h3 className="text-xs sm:text-sm font-semibold text-white">
                     {item.name}
                   </h3>
                   <p className="text-xs text-gray-400 mt-1">Exclusivo VIP</p>
@@ -167,16 +163,16 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
       
       {/* Mensagem de assinatura */}
       <div className="mt-6 sm:mt-8 text-center">
-        <div className="bg-gradient-purple-pink p-4 sm:p-6 rounded-lg">
-          <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
+        <div className="bg-white text-black p-4 sm:p-6 rounded-lg">
+          <h3 className="text-lg sm:text-xl font-bold mb-2">
             Conteúdo Exclusivo VIP
           </h3>
-          <p className="text-sm sm:text-base text-gray-200 mb-4">
+          <p className="text-sm sm:text-base text-gray-700 mb-4">
             Acesse conteúdo premium e exclusivo com nossa assinatura VIP
           </p>
           <button 
             onClick={onSubscriptionClick}
-            className="bg-white text-black px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors duration-300"
+            className="bg-black text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold hover:bg-gray-800 transition-colors duration-300"
           >
             Assinar Agora
           </button>

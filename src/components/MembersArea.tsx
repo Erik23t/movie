@@ -15,21 +15,20 @@ const MembersArea = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Banner Principal com Imagem */}
-      <div className="relative h-screen bg-gradient-purple-pink overflow-hidden">
+      <div className="relative h-screen bg-black overflow-hidden">
         {/* Imagem de fundo do banner */}
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1920&h=1080&fit=crop&crop=center"
+            src="https://thumbs.dreamstime.com/b/linda-mulher-sexy-em-uma-jaqueta-elegante-de-couro-posando-no-est%C3%BAdio-foto-do-interior-da-moda-casaco-163755692.jpg"
             alt="Banner background"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover filter grayscale"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70"></div>
-          <div className="absolute inset-0 bg-gradient-purple-pink opacity-60"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/80"></div>
         </div>
         
         <div className="relative z-10 flex items-center justify-center h-full px-4 sm:px-8">
           <div className="text-center max-w-4xl animate-fade-in">
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-white to-netflix-pink-light bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
               ÁREA EXCLUSIVA
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-gray-200 px-4">
@@ -37,7 +36,7 @@ const MembersArea = () => {
             </p>
             <Button 
               onClick={() => setShowVideo(true)}
-              className="bg-gradient-purple-pink hover:bg-gradient-purple-pink-dark text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105"
+              className="bg-white text-black hover:bg-gray-200 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105"
             >
               <Play className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
               Reproduzir Conteúdo
@@ -51,7 +50,7 @@ const MembersArea = () => {
 
       {/* Carrossel de Modelos Principal */}
       <div className="py-8 sm:py-16 px-4 sm:px-8">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center bg-gradient-to-r from-netflix-purple to-netflix-pink bg-clip-text text-transparent">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center text-white">
           Modelos em Destaque
         </h2>
         <ModelCarousel onVideoClick={() => setShowVideo(true)} />
@@ -59,7 +58,7 @@ const MembersArea = () => {
 
       {/* Carrossel Exclusivo para Assinantes */}
       <div className="py-8 sm:py-16 px-4 sm:px-8 bg-gradient-to-b from-black via-gray-900 to-black">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center bg-gradient-to-r from-netflix-purple to-netflix-pink bg-clip-text text-transparent">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center text-white">
           Conteúdo Exclusivo VIP
         </h2>
         <SubscriberCarousel onSubscriptionClick={() => setShowSubscriptionPlans(true)} />

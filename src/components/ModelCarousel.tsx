@@ -66,11 +66,9 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   const getItemsPerView = () => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth < 640) return 2; // Mobile: 2 items
-      if (window.innerWidth < 768) return 3; // Tablet: 3 items
-      if (window.innerWidth < 1024) return 4; // Small desktop: 4 items
-      return 5; // Large desktop: 5 items
+      return 10; // Desktop: 10 items
     }
-    return 5;
+    return 10;
   };
 
   const [itemsPerView, setItemsPerView] = useState(getItemsPerView());
@@ -87,11 +85,11 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   const maxIndex = Math.max(0, models.length - itemsPerView);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % (maxIndex + 1));
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + maxIndex + 1) % (maxIndex + 1));
+    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   };
 
   const translatePercentage = (100 / itemsPerView) * currentIndex;
@@ -101,15 +99,13 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={prevSlide}
-          className="bg-gradient-purple-pink p-2 sm:p-3 rounded-full hover:bg-gradient-purple-pink-dark transition-all duration-300 transform hover:scale-110 z-10"
-          disabled={currentIndex === 0}
+          className="bg-white text-black p-2 sm:p-3 rounded-full hover:bg-gray-200 transition-all duration-300 transform hover:scale-110 z-10"
         >
           <ChevronLeft className="h-4 w-4 sm:h-6 sm:w-6" />
         </button>
         <button
           onClick={nextSlide}
-          className="bg-gradient-purple-pink p-2 sm:p-3 rounded-full hover:bg-gradient-purple-pink-dark transition-all duration-300 transform hover:scale-110 z-10"
-          disabled={currentIndex === maxIndex}
+          className="bg-white text-black p-2 sm:p-3 rounded-full hover:bg-gray-200 transition-all duration-300 transform hover:scale-110 z-10"
         >
           <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6" />
         </button>
@@ -117,34 +113,34 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
       
       <div className="overflow-hidden">
         <div 
-          className="flex transition-transform duration-500 ease-in-out"
+          className="flex transition-transform duration-500 ease-in-out gap-1"
           style={{ transform: `translateX(-${translatePercentage}%)` }}
         >
           {models.map((model) => (
             <div
               key={model.id}
-              className={`flex-shrink-0 px-1 sm:px-2`}
+              className="flex-shrink-0"
               style={{ width: `${100 / itemsPerView}%` }}
             >
               <div 
                 className="relative group cursor-pointer transform transition-all duration-300 hover:scale-105"
                 onClick={onVideoClick}
               >
-                <div className="relative overflow-hidden rounded-lg bg-gradient-purple-pink p-1">
+                <div className="relative overflow-hidden">
                   <img
                     src={model.image}
                     alt={model.name}
-                    className="w-full object-cover rounded-lg"
-                    style={{ width: '112px', height: '156.8px' }}
+                    className="w-full object-cover"
+                    style={{ width: '152px', height: '250px' }}
                   />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <div className="bg-white/20 backdrop-blur-sm p-2 sm:p-3 rounded-full">
                       <Play className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
                     </div>
                   </div>
                 </div>
                 <div className="mt-2 text-center">
-                  <h3 className="text-xs sm:text-sm font-semibold bg-gradient-to-r from-netflix-purple to-netflix-pink bg-clip-text text-transparent">
+                  <h3 className="text-xs sm:text-sm font-semibold text-white">
                     {model.name}
                   </h3>
                 </div>
