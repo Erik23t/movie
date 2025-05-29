@@ -3,17 +3,17 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-black border-t border-netflix-purple/20 py-8 sm:py-12">
+    <footer className="bg-black border-t border-gray-700 py-8 sm:py-12">
       <div className="container mx-auto px-4 sm:px-8 text-center">
         <div className="mb-6 sm:mb-8">
-          <div className="inline-block bg-gradient-purple-pink p-3 sm:p-4 rounded-full mb-3 sm:mb-4">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center">
-              <span className="text-xl sm:text-2xl font-bold bg-gradient-purple-pink bg-clip-text text-transparent">
+          <div className="inline-block bg-white p-3 sm:p-4 rounded-full mb-3 sm:mb-4">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-black rounded-full flex items-center justify-center">
+              <span className="text-xl sm:text-2xl font-bold text-white">
                 M
               </span>
             </div>
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-netflix-purple to-netflix-pink bg-clip-text text-transparent">
+          <h3 className="text-xl sm:text-2xl font-bold text-white">
             Members Club
           </h3>
         </div>
@@ -24,13 +24,13 @@ const Footer = () => {
         </div>
         
         <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-6">
-          <a href="#" className="text-gray-400 hover:text-netflix-pink transition-colors duration-300 text-sm sm:text-base">
+          <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base">
             Termos de Uso
           </a>
-          <a href="#" className="text-gray-400 hover:text-netflix-pink transition-colors duration-300 text-sm sm:text-base">
+          <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base">
             Privacidade
           </a>
-          <a href="#" className="text-gray-400 hover:text-netflix-pink transition-colors duration-300 text-sm sm:text-base">
+          <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm sm:text-base">
             Suporte
           </a>
         </div>

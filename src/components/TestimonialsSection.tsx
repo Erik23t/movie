@@ -27,30 +27,6 @@ const TestimonialsSection = () => {
       photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
       rating: 5,
       comment: "Simplesmente fantástico! Recomendo para todos que buscam conteúdo premium de verdade."
-    },
-    {
-      id: 4,
-      name: "James Brown",
-      location: "Miami, USA",
-      photo: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=100&h=100&fit=crop&crop=face",
-      rating: 5,
-      comment: "Excelente variedade e qualidade. O melhor investimento que fiz este ano!"
-    },
-    {
-      id: 5,
-      name: "Christopher Davis",
-      location: "Houston, USA",
-      photo: "https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=100&h=100&fit=crop&crop=face",
-      rating: 5,
-      comment: "Plataforma incrível com conteúdo exclusivo. Suporte ao cliente também é excepcional."
-    },
-    {
-      id: 6,
-      name: "Matthew Miller",
-      location: "Phoenix, USA",
-      photo: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&h=100&fit=crop&crop=face",
-      rating: 5,
-      comment: "Qualidade top! Interface moderna e conteúdo sempre atualizado. Recomendo 100%!"
     }
   ];
 

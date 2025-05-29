@@ -23,13 +23,13 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
     {
       id: 1,
       type: 'image' as const,
-      image: "https://images.unsplash.com/photo-1494790108755-2616b812b647?w=400&h=600&fit=crop&crop=face",
+      image: "https://i.postimg.cc/Bb9V9k1K/Design-sem-nome-2.jpg",
       name: "Modelo 1"
     },
     {
       id: 2,
       type: 'image' as const,
-      image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=600&fit=crop&crop=face",
+      image: "https://i.postimg.cc/Bb9V9k1K/Design-sem-nome-2.jpg",
       name: "Modelo 2"
     },
     {

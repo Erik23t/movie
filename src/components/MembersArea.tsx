@@ -60,9 +60,9 @@ const MembersArea = () => {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
       </div>
 
-      {/* Carrossel de Modelos Principal */}
-      <div className="py-8 sm:py-16 px-4 sm:px-8">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center text-white">
+      {/* Carrossel de Modelos Principal - Espaçamento reduzido */}
+      <div className="py-4 sm:py-8 px-4 sm:px-8">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-center text-white">
           Modelos em Destaque
         </h2>
         <ModelCarousel onVideoClick={() => setShowVideo(true)} />

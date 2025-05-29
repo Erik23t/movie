@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Lock } from 'lucide-react';
 import { useSwipeable } from 'react-swipeable';
@@ -14,52 +13,52 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
   const exclusiveContent = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=600&fit=crop&crop=center&sat=-100",
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
       name: "Exclusivo 1"
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1452960962994-acf4fd70b632?w=400&h=600&fit=crop&crop=center&sat=-100",
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
       name: "Exclusivo 2"
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=600&fit=crop&crop=center&sat=-100",
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
       name: "Exclusivo 3"
     },
     {
       id: 4,
-      image: "https://images.unsplash.com/photo-1514315384763-ba401779410f?w=400&h=600&fit=crop&crop=center&sat=-100",
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
       name: "Exclusivo 4"
     },
     {
       id: 5,
-      image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400&h=600&fit=crop&crop=center&sat=-100",
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
       name: "Exclusivo 5"
     },
     {
       id: 6,
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=600&fit=crop&crop=center&sat=-100",
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
       name: "Exclusivo 6"
     },
     {
       id: 7,
-      image: "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=400&h=600&fit=crop&crop=center&sat=-100",
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
       name: "Exclusivo 7"
     },
     {
       id: 8,
-      image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=600&fit=crop&crop=center&sat=-100",
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
       name: "Exclusivo 8"
     },
     {
       id: 9,
-      image: "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?w=400&h=600&fit=crop&crop=center&sat=-100",
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
       name: "Exclusivo 9"
     },
     {
       id: 10,
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop&crop=center&sat=-100",
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
       name: "Exclusivo 10"
     }
   ];
