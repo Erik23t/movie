@@ -21,7 +21,7 @@ const MembersArea = () => {
           <img
             src="https://i.postimg.cc/hjMn30c9/2661ed2c-7a46-4c61-bf61-3af5ec1b5199.jpg"
             alt="Banner background"
-            className="w-full h-full object-cover filter grayscale"
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/90"></div>
         </div>
@@ -47,7 +47,7 @@ const MembersArea = () => {
               
               <Button 
                 onClick={() => setShowSubscriptionPlans(true)}
-                className="bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-700 hover:to-gray-800 border border-gray-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105"
+                className="bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-700 hover:to-gray-800 border border-gray-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 animate-pulse"
               >
                 <Crown className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
                 Assinar VIP
@@ -61,7 +61,7 @@ const MembersArea = () => {
       </div>
 
       {/* Carrossel de Modelos Principal - Espaçamento reduzido ainda mais no mobile */}
-      <div className="pt-1 pb-2 sm:pt-4 sm:pb-8 px-4 sm:px-8">
+      <div className="pt-1 pb-2 sm:pt-4 sm:pb-8 px-4 sm:px-8 -mt-16 sm:-mt-8">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 text-center text-white">
           Modelos em Destaque
         </h2>
