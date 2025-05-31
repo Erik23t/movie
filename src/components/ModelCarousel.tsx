@@ -23,55 +23,55 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
     {
       id: 1,
       type: 'image' as const,
-      image: "https://i.postimg.cc/Bb9V9k1K/Design-sem-nome-2.jpg",
+      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
       name: "Modelo 1"
     },
     {
       id: 2,
       type: 'image' as const,
-      image: "https://i.postimg.cc/Bb9V9k1K/Design-sem-nome-2.jpg",
+      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
       name: "Modelo 2"
     },
     {
       id: 3,
       type: 'image' as const,
-      image: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=400&h=600&fit=crop&crop=face",
+      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
       name: "Modelo 3"
     },
     {
       id: 4,
       type: 'image' as const,
-      image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400&h=600&fit=crop&crop=face",
+      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
       name: "Modelo 4"
     },
     {
       id: 5,
       type: 'image' as const,
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=600&fit=crop&crop=face",
+      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
       name: "Modelo 5"
     },
     {
       id: 6,
       type: 'image' as const,
-      image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop&crop=face",
+      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
       name: "Modelo 6"
     },
     {
       id: 7,
       type: 'image' as const,
-      image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=600&fit=crop&crop=face",
+      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
       name: "Modelo 7"
     },
     {
       id: 8,
       type: 'image' as const,
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop&crop=face",
+      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
       name: "Modelo 8"
     },
     {
       id: 9,
       type: 'image' as const,
-      image: "https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=400&h=600&fit=crop&crop=face",
+      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
       name: "Modelo 9"
     }
   ];
