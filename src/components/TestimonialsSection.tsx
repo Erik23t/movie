@@ -50,7 +50,7 @@ const TestimonialsSection = () => {
       setCurrentIndex((prevIndex) => 
         prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
       );
-    }, 3000); // Muda a cada 3 segundos
+    }, 4000); // Muda a cada 4 segundos para um por vez
 
     return () => clearInterval(interval);
   }, [isMobile, testimonials.length]);
@@ -62,49 +62,36 @@ const TestimonialsSection = () => {
           O Que Nossos Membros Dizem
         </h2>
         <div className="relative overflow-hidden">
-          <div 
-            className="flex transition-transform duration-1000 ease-in-out"
-            style={{ 
-              transform: `translateX(-${currentIndex * 100}%)`,
-              width: `${testimonials.length * 100}%`
-            }}
-          >
-            {testimonials.map((testimonial) => (
-              <div
-                key={testimonial.id}
-                className="w-full flex-shrink-0 px-4"
-                style={{ width: `${100 / testimonials.length}%` }}
-              >
-                <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-lg border border-gray-700 hover:border-gray-600 transition-all duration-300 transform hover:scale-105">
-                  <div className="flex items-center mb-4">
-                    <img
-                      src={testimonial.photo}
-                      alt={testimonial.name}
-                      className="w-12 h-12 rounded-full object-cover mr-4 border-2 border-gray-600"
-                    />
-                    <div>
-                      <h3 className="font-semibold text-white text-sm sm:text-base">
-                        {testimonial.name}
-                      </h3>
-                      <p className="text-gray-400 text-xs sm:text-sm">
-                        {testimonial.location}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex mb-3">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-4 w-4 fill-yellow-400 text-yellow-400"
-                      />
-                    ))}
-                  </div>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    "{testimonial.comment}"
+          {/* Mostra apenas um depoimento por vez no mobile */}
+          <div className="px-4">
+            <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-black p-6 rounded-lg border border-gray-700 hover:border-gray-600 transition-all duration-300 transform hover:scale-105">
+              <div className="flex items-center mb-4">
+                <img
+                  src={testimonials[currentIndex].photo}
+                  alt={testimonials[currentIndex].name}
+                  className="w-12 h-12 rounded-full object-cover mr-4 border-2 border-gray-600"
+                />
+                <div>
+                  <h3 className="font-semibold text-white text-sm sm:text-base">
+                    {testimonials[currentIndex].name}
+                  </h3>
+                  <p className="text-gray-400 text-xs sm:text-sm">
+                    {testimonials[currentIndex].location}
                   </p>
                 </div>
               </div>
-            ))}
+              <div className="flex mb-3">
+                {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className="h-4 w-4 fill-yellow-400 text-yellow-400"
+                  />
+                ))}
+              </div>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                "{testimonials[currentIndex].comment}"
+              </p>
+            </div>
           </div>
           
           {/* Indicadores de posição */}

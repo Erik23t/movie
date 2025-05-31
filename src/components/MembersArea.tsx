@@ -19,7 +19,7 @@ const MembersArea = () => {
         {/* Imagem de fundo do banner */}
         <div className="absolute inset-0">
           <img
-            src="https://thumbs.dreamstime.com/b/linda-mulher-sexy-em-uma-jaqueta-elegante-de-couro-posando-no-est%C3%BAdio-foto-do-interior-da-moda-casaco-163755692.jpg"
+            src="https://i.postimg.cc/hjMn30c9/2661ed2c-7a46-4c61-bf61-3af5ec1b5199.jpg"
             alt="Banner background"
             className="w-full h-full object-cover filter grayscale"
           />
@@ -60,9 +60,9 @@ const MembersArea = () => {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
       </div>
 
-      {/* Carrossel de Modelos Principal - Espaçamento ainda mais reduzido */}
-      <div className="pt-2 pb-4 sm:pt-4 sm:pb-8 px-4 sm:px-8">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-center text-white">
+      {/* Carrossel de Modelos Principal - Espaçamento reduzido ainda mais no mobile */}
+      <div className="pt-1 pb-2 sm:pt-4 sm:pb-8 px-4 sm:px-8">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 text-center text-white">
           Modelos em Destaque
         </h2>
         <ModelCarousel onVideoClick={() => setShowVideo(true)} />

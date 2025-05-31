@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
 import { useSwipeable } from 'react-swipeable';
@@ -23,55 +24,55 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
     {
       id: 1,
       type: 'image' as const,
-      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
+      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
       name: "Modelo 1"
     },
     {
       id: 2,
       type: 'image' as const,
-      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
+      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
       name: "Modelo 2"
     },
     {
       id: 3,
       type: 'image' as const,
-      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
+      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
       name: "Modelo 3"
     },
     {
       id: 4,
       type: 'image' as const,
-      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
+      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
       name: "Modelo 4"
     },
     {
       id: 5,
       type: 'image' as const,
-      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
+      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
       name: "Modelo 5"
     },
     {
       id: 6,
       type: 'image' as const,
-      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
+      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
       name: "Modelo 6"
     },
     {
       id: 7,
       type: 'image' as const,
-      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
+      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
       name: "Modelo 7"
     },
     {
       id: 8,
       type: 'image' as const,
-      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
+      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
       name: "Modelo 8"
     },
     {
       id: 9,
       type: 'image' as const,
-      image: "https://i.postimg.cc/bNTdb17f/Flux-Dev-A-futuristic-and-artistic-icon-design-featuring-a-glo-2.jpg",
+      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
       name: "Modelo 9"
     }
   ];
