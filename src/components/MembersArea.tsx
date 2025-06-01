@@ -48,7 +48,7 @@ const MembersArea = () => {
               
               <Button 
                 onClick={() => setShowSubscriptionPlans(true)}
-                className="bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-700 hover:to-gray-800 border border-gray-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 animate-[pulse_4s_ease-in-out_infinite]"
+                className="bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-700 hover:to-gray-800 border border-gray-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 animate-[pulse_2s_ease-in-out_infinite]"
               >
                 <Crown className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
                 Assinar VIP
@@ -91,9 +91,12 @@ const MembersArea = () => {
         
         {/* Preço com desconto */}
         <div className="text-center mb-6 sm:mb-8">
-          <div className="inline-flex items-center justify-center bg-gradient-to-r from-yellow-600 to-orange-600 text-white px-6 py-3 rounded-full mb-4">
+          <button
+            onClick={() => setShowSubscriptionPlans(true)}
+            className="inline-flex items-center justify-center bg-gradient-to-r from-yellow-600 to-orange-600 text-white px-6 py-3 rounded-full mb-4 hover:from-yellow-500 hover:to-orange-500 transition-all duration-300 transform hover:scale-105 animate-[pulse_2s_ease-in-out_infinite] cursor-pointer"
+          >
             <span className="text-lg sm:text-xl font-bold">🔥 OFERTA ESPECIAL - 60% OFF no 1º mês!</span>
-          </div>
+          </button>
           <div className="flex items-center justify-center gap-4">
             <span className="text-2xl sm:text-3xl text-gray-400 line-through">$30</span>
             <span className="text-4xl sm:text-5xl font-bold text-white">$12</span>

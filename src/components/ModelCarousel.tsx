@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
 import { useSwipeable } from 'react-swipeable';
@@ -12,7 +11,7 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   const [touchedImages, setTouchedImages] = useState<Set<number>>(new Set());
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Apenas imagens de modelos, sem vídeo
+  // Imagens atualizadas com os novos links
   const models = [
     {
       id: 1,
@@ -23,49 +22,49 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
     {
       id: 2,
       type: 'image' as const,
-      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
+      image: "https://i.postimg.cc/hjMn30c9/2661ed2c-7a46-4c61-bf61-3af5ec1b5199.jpg",
       name: "Modelo 2"
     },
     {
       id: 3,
       type: 'image' as const,
-      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
+      image: "https://i.postimg.cc/yYf5xXmb/856c8a2c-53c9-4abc-9a5c-f121a6b73552-1.jpg",
       name: "Modelo 3"
     },
     {
       id: 4,
       type: 'image' as const,
-      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
+      image: "https://i.postimg.cc/8z2Zfyjt/bab136ac-395d-455f-8748-715403cabae6.jpg",
       name: "Modelo 4"
     },
     {
       id: 5,
       type: 'image' as const,
-      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
+      image: "https://i.postimg.cc/0NSHVTLT/39c9af01-465c-460d-8b98-abf8cda14bc1.jpg",
       name: "Modelo 5"
     },
     {
       id: 6,
       type: 'image' as const,
-      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
+      image: "https://i.postimg.cc/7LrNZfWR/3dada236-0854-46c0-a3e8-b30dcf9445ac.jpg",
       name: "Modelo 6"
     },
     {
       id: 7,
       type: 'image' as const,
-      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
+      image: "https://i.postimg.cc/7LrNZfWR/3dada236-0854-46c0-a3e8-b30dcf9445ac.jpg",
       name: "Modelo 7"
     },
     {
       id: 8,
       type: 'image' as const,
-      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
+      image: "https://i.postimg.cc/ZRFsSrYj/c45ac9fd-11cf-4ce3-aae9-ec6ba532a40a.jpg",
       name: "Modelo 8"
     },
     {
       id: 9,
       type: 'image' as const,
-      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
+      image: "https://i.postimg.cc/0NSHVTLT/39c9af01-465c-460d-8b98-abf8cda14bc1.jpg",
       name: "Modelo 9"
     }
   ];

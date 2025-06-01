@@ -15,7 +15,7 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
       price: 'R$ 19,90',
       period: '/mês',
       icon: <Star className="h-8 w-8" />,
-      color: 'from-gray-600 to-gray-800',
+      color: 'from-yellow-600 to-orange-600',
       features: [
         'Acesso a conteúdo básico',
         'Qualidade HD',
@@ -29,7 +29,7 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
       price: 'R$ 39,90',
       period: '/mês',
       icon: <Crown className="h-8 w-8" />,
-      color: 'from-netflix-purple to-netflix-pink',
+      color: 'from-yellow-600 to-orange-600',
       features: [
         'Acesso a todo conteúdo',
         'Qualidade 4K Ultra HD',
@@ -46,7 +46,7 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
       price: 'R$ 79,90',
       period: '/mês',
       icon: <Zap className="h-8 w-8" />,
-      color: 'from-yellow-500 to-orange-600',
+      color: 'from-yellow-600 to-orange-600',
       features: [
         'Acesso completo ilimitado',
         'Qualidade 8K',
@@ -71,15 +71,15 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
         {/* Botão fechar */}
         <button
           onClick={onClose}
-          className="absolute -top-4 right-0 sm:-top-8 sm:right-4 bg-gradient-purple-pink p-2 sm:p-3 rounded-full hover:bg-gradient-purple-pink-dark transition-all duration-300 transform hover:scale-110 z-10"
+          className="absolute -top-4 right-0 sm:-top-8 sm:right-4 bg-gradient-to-r from-yellow-600 to-orange-600 p-2 sm:p-3 rounded-full hover:from-yellow-500 hover:to-orange-500 transition-all duration-300 transform hover:scale-110 z-10"
         >
           <X className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
         </button>
 
         {/* Conteúdo dos planos */}
-        <div className="bg-black/90 backdrop-blur-lg rounded-2xl p-4 sm:p-6 lg:p-8 border border-netflix-purple/30">
+        <div className="bg-black/90 backdrop-blur-lg rounded-2xl p-4 sm:p-6 lg:p-8 border border-yellow-600/30">
           <div className="text-center mb-6 sm:mb-8 lg:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-netflix-purple to-netflix-pink bg-clip-text text-transparent">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
               Escolha Seu Plano
             </h2>
             <p className="text-gray-300 text-base sm:text-lg lg:text-xl">
@@ -92,11 +92,11 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
               <div
                 key={plan.id}
                 className={`relative bg-gradient-to-b ${plan.color} p-1 rounded-2xl transform transition-all duration-300 hover:scale-105 ${
-                  plan.popular ? 'ring-4 ring-netflix-pink/50 scale-105' : ''
+                  plan.popular ? 'ring-4 ring-yellow-600/50 scale-105' : ''
                 }`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-purple-pink px-4 py-2 rounded-full text-white text-sm font-bold">
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-yellow-600 to-orange-600 px-4 py-2 rounded-full text-white text-sm font-bold">
                     MAIS POPULAR
                   </div>
                 )}
@@ -130,7 +130,7 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
 
                   <Button
                     onClick={() => handleSubscribe(plan.id)}
-                    className={`w-full bg-gradient-to-r ${plan.color} hover:opacity-90 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105`}
+                    className={`w-full bg-gradient-to-r ${plan.color} hover:from-yellow-500 hover:to-orange-500 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 animate-[pulse_2s_ease-in-out_infinite]`}
                   >
                     Assinar {plan.name}
                   </Button>
