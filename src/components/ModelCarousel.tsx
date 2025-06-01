@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
 import { useSwipeable } from 'react-swipeable';
@@ -13,14 +12,8 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
-  // Primeiro item é um vídeo, depois as imagens de modelos
+  // Apenas imagens de modelos, sem vídeo
   const models = [
-    {
-      id: 0,
-      type: 'video' as const,
-      video: "https://app.vidzflow.com/v/HT18AEHP2v?dq=576&ap=false&muted=true&loop=true&ctp=true&bv=false&piv=false&playsinline=true&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen",
-      name: "Vídeo Principal"
-    },
     {
       id: 1,
       type: 'image' as const,

@@ -47,7 +47,7 @@ const MembersArea = () => {
               
               <Button 
                 onClick={() => setShowSubscriptionPlans(true)}
-                className="bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-700 hover:to-gray-800 border border-gray-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 animate-[pulse_3s_ease-in-out_infinite]"
+                className="bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-700 hover:to-gray-800 border border-gray-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 animate-[pulse_4s_ease-in-out_infinite]"
               >
                 <Crown className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
                 Assinar VIP
@@ -60,7 +60,7 @@ const MembersArea = () => {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
       </div>
 
-      {/* Carrossel de Modelos Principal - Espaçamento reduzido ainda mais no mobile */}
+      {/* Carrossel de Modelos Principal */}
       <div className="pt-1 pb-2 sm:pt-4 sm:pb-8 px-4 sm:px-8 -mt-16 sm:-mt-8">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 text-center text-white">
           Modelos em Destaque
@@ -68,12 +68,15 @@ const MembersArea = () => {
         <ModelCarousel onVideoClick={() => setShowVideo(true)} />
       </div>
 
-      {/* Vídeo Principal Centralizado */}
-      <div className="py-8 sm:py-16 px-4 sm:px-8 bg-gradient-to-b from-black via-gray-900 to-black">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center text-white">
+      {/* Vídeo Principal Centralizado com Efeito de Sombreamento */}
+      <div className="py-8 sm:py-16 px-4 sm:px-8 bg-gradient-to-b from-black via-gray-900 to-black relative">
+        {/* Efeito de sombreamento acima do vídeo */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/80 via-black/50 to-transparent z-10"></div>
+        
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center text-white relative z-20">
           Conteúdo de Amostra
         </h2>
-        <div className="flex justify-center">
+        <div className="flex justify-center relative z-20">
           <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl">
             <div className="relative bg-black rounded-lg overflow-hidden shadow-2xl">
               <iframe
@@ -81,7 +84,11 @@ const MembersArea = () => {
                 height="400"
                 src="https://app.vidzflow.com/v/HT18AEHP2v?dq=576&ap=false&muted=true&loop=true&ctp=true&bv=false&piv=false&playsinline=true&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen"
                 title="Vídeo de Amostra"
-                className="w-full h-64 sm:h-80 md:h-96"
+                className="w-full h-64 sm:h-80 md:h-96 aspect-[9/16] sm:aspect-video"
+                style={{ 
+                  aspectRatio: window.innerWidth < 640 ? '9/16' : '16/9',
+                  height: window.innerWidth < 640 ? '500px' : '400px'
+                }}
                 frameBorder="0"
                 scrolling="no"
                 allow="autoplay; fullscreen"
