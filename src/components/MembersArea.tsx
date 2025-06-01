@@ -6,6 +6,7 @@ import VideoPlayer from './VideoPlayer';
 import ModelCarousel from './ModelCarousel';
 import SubscriberCarousel from './SubscriberCarousel';
 import SubscriptionPlans from './SubscriptionPlans';
+import SampleVideoCarousel from './SampleVideoCarousel';
 import TestimonialsSection from './TestimonialsSection';
 
 const MembersArea = () => {
@@ -76,33 +77,33 @@ const MembersArea = () => {
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center text-white relative z-20">
           Conteúdo de Amostra
         </h2>
-        <div className="flex justify-center relative z-20">
-          <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl">
-            <div className="relative bg-black rounded-lg overflow-hidden shadow-2xl">
-              <iframe
-                width="100%"
-                height="400"
-                src="https://app.vidzflow.com/v/HT18AEHP2v?dq=576&ap=false&muted=true&loop=true&ctp=true&bv=false&piv=false&playsinline=true&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen"
-                title="Vídeo de Amostra"
-                className="w-full h-64 sm:h-80 md:h-96 aspect-[9/16] sm:aspect-video"
-                style={{ 
-                  aspectRatio: window.innerWidth < 640 ? '9/16' : '16/9',
-                  height: window.innerWidth < 640 ? '500px' : '400px'
-                }}
-                frameBorder="0"
-                scrolling="no"
-                allow="autoplay; fullscreen"
-              />
-            </div>
-          </div>
-        </div>
+        <SampleVideoCarousel />
       </div>
 
       {/* Carrossel Exclusivo para Assinantes */}
       <div className="py-8 sm:py-16 px-4 sm:px-8 bg-gradient-to-b from-black via-gray-900 to-black">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center text-white">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-center text-white">
           Conteúdo Exclusivo VIP
         </h2>
+        <p className="text-lg sm:text-xl text-gray-300 text-center mb-6 sm:mb-8">
+          Acesse conteúdo premium e exclusivo com nossa assinatura VIP
+        </p>
+        
+        {/* Preço com desconto */}
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="inline-flex items-center justify-center bg-gradient-to-r from-yellow-600 to-orange-600 text-white px-6 py-3 rounded-full mb-4">
+            <span className="text-lg sm:text-xl font-bold">🔥 OFERTA ESPECIAL - 60% OFF no 1º mês!</span>
+          </div>
+          <div className="flex items-center justify-center gap-4">
+            <span className="text-2xl sm:text-3xl text-gray-400 line-through">$30</span>
+            <span className="text-4xl sm:text-5xl font-bold text-white">$12</span>
+            <span className="text-lg sm:text-xl text-gray-300">/mês</span>
+          </div>
+          <p className="text-sm sm:text-base text-gray-400 mt-2">
+            Depois $30/mês. Cancele a qualquer momento.
+          </p>
+        </div>
+        
         <SubscriberCarousel onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
       </div>
 

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
 import { useSwipeable } from 'react-swipeable';
@@ -10,7 +11,6 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchedImages, setTouchedImages] = useState<Set<number>>(new Set());
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
   // Apenas imagens de modelos, sem vídeo
   const models = [
@@ -108,16 +108,6 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
     }
   };
 
-  const handleVideoClick = (videoUrl: string, event: React.MouseEvent) => {
-    event.stopPropagation();
-    if (isMobile) {
-      const fullscreenVideo = videoUrl.replace('muted=true&loop=true', 'muted=false&loop=false');
-      setSelectedVideo(fullscreenVideo);
-    } else {
-      onVideoClick();
-    }
-  };
-
   const handleImageClick = (modelId: number, imageUrl: string, event: React.MouseEvent) => {
     event.stopPropagation();
     if (isMobile) {
@@ -125,10 +115,6 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
     } else {
       onVideoClick();
     }
-  };
-
-  const closeVideoModal = () => {
-    setSelectedVideo(null);
   };
 
   const swipeHandlers = useSwipeable({
@@ -169,60 +155,28 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
             >
               <div className="relative group cursor-pointer transform transition-all duration-300 hover:scale-105">
                 <div className="relative overflow-hidden">
-                  {model.type === 'video' ? (
-                    <div
-                      className="relative"
-                      onTouchStart={() => handleImageTouch(model.id)}
-                      onClick={(e) => handleVideoClick(model.video, e)}
-                    >
-                      <div className="relative" style={{ width: '152px', height: '250px' }}>
-                        <iframe
-                          width="100%"
-                          height="100%"
-                          src={model.video}
-                          title={model.name}
-                          style={{ 
-                            aspectRatio: '0.608',
-                            width: '152px',
-                            height: '250px',
-                            objectFit: 'cover'
-                          }}
-                          frameBorder="0"
-                          scrolling="no"
-                          allow="autoplay; fullscreen"
-                          className="transition-all duration-300"
-                        />
-                      </div>
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <div className="bg-white/20 backdrop-blur-sm p-2 sm:p-3 rounded-full">
-                          <Play className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
-                        </div>
+                  <div
+                    onTouchStart={() => handleImageTouch(model.id)}
+                    onClick={(e) => handleImageClick(model.id, model.image, e)}
+                  >
+                    <img
+                      src={model.image}
+                      alt={model.name}
+                      className={`w-full object-cover transition-all duration-300 ${
+                        isMobile && !touchedImages.has(model.id) 
+                          ? 'filter grayscale' 
+                          : !isMobile 
+                            ? 'filter grayscale hover:filter-none' 
+                            : ''
+                      }`}
+                      style={{ width: '152px', height: '250px' }}
+                    />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="bg-white/20 backdrop-blur-sm p-2 sm:p-3 rounded-full">
+                        <Play className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
                       </div>
                     </div>
-                  ) : (
-                    <div
-                      onTouchStart={() => handleImageTouch(model.id)}
-                      onClick={(e) => handleImageClick(model.id, model.image, e)}
-                    >
-                      <img
-                        src={model.image}
-                        alt={model.name}
-                        className={`w-full object-cover transition-all duration-300 ${
-                          isMobile && !touchedImages.has(model.id) 
-                            ? 'filter grayscale' 
-                            : !isMobile 
-                              ? 'filter grayscale hover:filter-none' 
-                              : ''
-                        }`}
-                        style={{ width: '152px', height: '250px' }}
-                      />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <div className="bg-white/20 backdrop-blur-sm p-2 sm:p-3 rounded-full">
-                          <Play className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  </div>
                 </div>
                 <div className="mt-2 text-center">
                   <h3 className="text-xs sm:text-sm font-semibold text-white">
@@ -249,34 +203,6 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
               src={selectedImage}
               alt="Visualização completa"
               className="max-w-full max-h-full object-contain"
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Modal de visualização completa de vídeo */}
-      {selectedVideo && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4">
-          <div className="relative w-full h-full flex items-center justify-center">
-            <button
-              onClick={closeVideoModal}
-              className="absolute top-4 right-4 bg-white text-black p-2 rounded-full hover:bg-gray-200 transition-all duration-300 z-10"
-            >
-              <X className="h-6 w-6" />
-            </button>
-            <iframe
-              width="100%"
-              height="100%"
-              src={selectedVideo}
-              title="Vídeo em tela cheia"
-              style={{ 
-                maxWidth: '100%',
-                maxHeight: '100%'
-              }}
-              frameBorder="0"
-              scrolling="no"
-              allow="autoplay; fullscreen"
-              className="object-contain"
             />
           </div>
         </div>
