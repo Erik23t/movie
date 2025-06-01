@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, X, Heart } from 'lucide-react';
 import { useSwipeable } from 'react-swipeable';
 
 interface ModelCarouselProps {
@@ -10,6 +10,218 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchedImages, setTouchedImages] = useState<Set<number>>(new Set());
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedModelId, setSelectedModelId] = useState<number | null>(null);
+
+  // Comentários específicos para cada modelo
+  const modelComments = {
+    1: [
+      {
+        id: 1,
+        avatar: "https://i.postimg.cc/nhHLZGzc/avatar1.jpg",
+        name: "Sarah M.",
+        time: "2 horas atrás",
+        comment: "Conteúdo incrível! Vale muito a pena a assinatura ❤️"
+      },
+      {
+        id: 2,
+        avatar: "https://i.postimg.cc/7ZKvpJXQ/avatar2.jpg",
+        name: "Mike R.",
+        time: "4 horas atrás",
+        comment: "Qualidade excepcional, super recomendo! ❤️"
+      },
+      {
+        id: 3,
+        avatar: "https://i.postimg.cc/T3qBhNxY/avatar3.jpg",
+        name: "Jessica L.",
+        time: "6 horas atrás",
+        comment: "Melhor plataforma que já usei, conteúdo top! ❤️"
+      }
+    ],
+    2: [
+      {
+        id: 1,
+        avatar: "https://i.postimg.cc/KzBwL8XG/avatar4.jpg",
+        name: "Carlos T.",
+        time: "1 hora atrás",
+        comment: "Impressionante! Superou minhas expectativas ❤️"
+      },
+      {
+        id: 2,
+        avatar: "https://i.postimg.cc/WzVpRqXM/avatar5.jpg",
+        name: "Ana B.",
+        time: "3 horas atrás",
+        comment: "Conteúdo premium de verdade, adorei! ❤️"
+      },
+      {
+        id: 3,
+        avatar: "https://i.postimg.cc/K8nXqYhp/avatar6.jpg",
+        name: "David K.",
+        time: "5 horas atrás",
+        comment: "Interface incrível e conteúdo de qualidade ❤️"
+      }
+    ],
+    3: [
+      {
+        id: 1,
+        avatar: "https://i.postimg.cc/85mLzJbC/avatar7.jpg",
+        name: "Maria F.",
+        time: "30 min atrás",
+        comment: "Fantástico! Realmente vale cada centavo ❤️"
+      },
+      {
+        id: 2,
+        avatar: "https://i.postimg.cc/yYBxMzKr/avatar8.jpg",
+        name: "Robert W.",
+        time: "2 horas atrás",
+        comment: "Experiência única, super recomendo! ❤️"
+      },
+      {
+        id: 3,
+        avatar: "https://i.postimg.cc/D0XzYhqP/avatar9.jpg",
+        name: "Lisa M.",
+        time: "4 horas atrás",
+        comment: "Melhor investimento que fiz este ano! ❤️"
+      }
+    ],
+    4: [
+      {
+        id: 1,
+        avatar: "https://i.postimg.cc/PxWzBqRY/avatar10.jpg",
+        name: "John D.",
+        time: "45 min atrás",
+        comment: "Qualidade incrível, estou impressionado! ❤️"
+      },
+      {
+        id: 2,
+        avatar: "https://i.postimg.cc/L8qRhJzY/avatar11.jpg",
+        name: "Emma S.",
+        time: "1 hora atrás",
+        comment: "Conteúdo exclusivo de alta qualidade ❤️"
+      },
+      {
+        id: 3,
+        avatar: "https://i.postimg.cc/XqBzLmNp/avatar12.jpg",
+        name: "Alex P.",
+        time: "3 horas atrás",
+        comment: "Superou todas as expectativas! ❤️"
+      }
+    ],
+    5: [
+      {
+        id: 1,
+        avatar: "https://i.postimg.cc/fW8yNxQh/avatar13.jpg",
+        name: "Sophie G.",
+        time: "20 min atrás",
+        comment: "Absolutamente incrível! Recomendo 100% ❤️"
+      },
+      {
+        id: 2,
+        avatar: "https://i.postimg.cc/C5zRhVpY/avatar14.jpg",
+        name: "Marcus J.",
+        time: "1 hora atrás",
+        comment: "Melhor plataforma premium do mercado ❤️"
+      },
+      {
+        id: 3,
+        avatar: "https://i.postimg.cc/kGBwYzXq/avatar15.jpg",
+        name: "Rachel C.",
+        time: "2 horas atrás",
+        comment: "Conteúdo de primeira qualidade! ❤️"
+      }
+    ],
+    6: [
+      {
+        id: 1,
+        avatar: "https://i.postimg.cc/05LbzKGy/avatar16.jpg",
+        name: "Tyler B.",
+        time: "15 min atrás",
+        comment: "Excepcional! Vale muito a pena assinar ❤️"
+      },
+      {
+        id: 2,
+        avatar: "https://i.postimg.cc/ZYBxdKpQ/avatar17.jpg",
+        name: "Olivia H.",
+        time: "50 min atrás",
+        comment: "Qualidade premium em cada detalhe ❤️"
+      },
+      {
+        id: 3,
+        avatar: "https://i.postimg.cc/tCYqRzXG/avatar18.jpg",
+        name: "Kevin L.",
+        time: "2 horas atrás",
+        comment: "Experiência única e premium! ❤️"
+      }
+    ],
+    7: [
+      {
+        id: 1,
+        avatar: "https://i.postimg.cc/YSLbBzpY/avatar19.jpg",
+        name: "Isabella N.",
+        time: "25 min atrás",
+        comment: "Simplesmente perfeito! Adorei tudo ❤️"
+      },
+      {
+        id: 2,
+        avatar: "https://i.postimg.cc/x1YqBzpQ/avatar20.jpg",
+        name: "James V.",
+        time: "1 hora atrás",
+        comment: "Conteúdo de altíssima qualidade ❤️"
+      },
+      {
+        id: 3,
+        avatar: "https://i.postimg.cc/wxBzMqRY/avatar21.jpg",
+        name: "Mia O.",
+        time: "3 horas atrás",
+        comment: "Melhor investimento que já fiz! ❤️"
+      }
+    ],
+    8: [
+      {
+        id: 1,
+        avatar: "https://i.postimg.cc/65YqLzXG/avatar22.jpg",
+        name: "Nathan R.",
+        time: "40 min atrás",
+        comment: "Incrível! Superou todas as expectativas ❤️"
+      },
+      {
+        id: 2,
+        avatar: "https://i.postimg.cc/TwBzKqpY/avatar23.jpg",
+        name: "Zoe T.",
+        time: "1 hora atrás",
+        comment: "Conteúdo premium de verdade! ❤️"
+      },
+      {
+        id: 3,
+        avatar: "https://i.postimg.cc/B6YqLzXG/avatar24.jpg",
+        name: "Ethan M.",
+        time: "2 horas atrás",
+        comment: "Qualidade excepcional, recomendo! ❤️"
+      }
+    ],
+    9: [
+      {
+        id: 1,
+        avatar: "https://i.postimg.cc/x1BzMqRY/avatar25.jpg",
+        name: "Chloe A.",
+        time: "10 min atrás",
+        comment: "Fantástico! Vale cada penny gasto ❤️"
+      },
+      {
+        id: 2,
+        avatar: "https://i.postimg.cc/65YqRzXG/avatar26.jpg",
+        name: "Ryan F.",
+        time: "35 min atrás",
+        comment: "Melhor plataforma que já experimentei ❤️"
+      },
+      {
+        id: 3,
+        avatar: "https://i.postimg.cc/TwBzKqRY/avatar27.jpg",
+        name: "Grace W.",
+        time: "1 hora atrás",
+        comment: "Conteúdo incrível e de alta qualidade! ❤️"
+      }
+    ]
+  };
 
   // Imagens atualizadas com os novos links
   const models = [
@@ -111,6 +323,7 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
     event.stopPropagation();
     if (isMobile) {
       setSelectedImage(imageUrl);
+      setSelectedModelId(modelId);
     } else {
       onVideoClick();
     }
@@ -188,21 +401,52 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
         </div>
       </div>
 
-      {/* Modal de visualização completa de imagem */}
-      {selectedImage && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4">
-          <div className="relative w-full h-full flex items-center justify-center">
+      {/* Modal de visualização completa de imagem com comentários */}
+      {selectedImage && selectedModelId && (
+        <div className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-start p-4 overflow-y-auto">
+          <div className="relative w-full h-full flex flex-col items-center">
             <button
-              onClick={() => setSelectedImage(null)}
+              onClick={() => {
+                setSelectedImage(null);
+                setSelectedModelId(null);
+              }}
               className="absolute top-4 right-4 bg-white text-black p-2 rounded-full hover:bg-gray-200 transition-all duration-300 z-10"
             >
               <X className="h-6 w-6" />
             </button>
-            <img
-              src={selectedImage}
-              alt="Visualização completa"
-              className="max-w-full max-h-full object-contain"
-            />
+            
+            {/* Imagem */}
+            <div className="flex-1 flex items-center justify-center mb-6">
+              <img
+                src={selectedImage}
+                alt="Visualização completa"
+                className="max-w-full max-h-[60vh] object-contain"
+              />
+            </div>
+
+            {/* Comentários dos assinantes */}
+            <div className="w-full max-w-md bg-black/80 backdrop-blur-sm rounded-lg p-4 space-y-4">
+              <h3 className="text-white text-lg font-semibold mb-4 text-center">
+                Comentários dos Assinantes
+              </h3>
+              
+              {modelComments[selectedModelId as keyof typeof modelComments]?.map((comment) => (
+                <div key={comment.id} className="flex items-start space-x-3 bg-gray-900/50 rounded-lg p-3">
+                  <img
+                    src={comment.avatar}
+                    alt={comment.name}
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <span className="text-white text-sm font-semibold">{comment.name}</span>
+                      <span className="text-gray-400 text-xs">{comment.time}</span>
+                    </div>
+                    <p className="text-gray-300 text-sm">{comment.comment}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}

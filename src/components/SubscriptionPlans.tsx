@@ -60,7 +60,6 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
   ];
 
   const handleSubscribe = (planId: string) => {
-    // Aqui você pode integrar com sua lógica de pagamento
     console.log(`Selecionado plano: ${planId}`);
     alert(`Redirecionando para pagamento do plano ${planId}`);
   };
@@ -91,8 +90,12 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`relative bg-gradient-to-b ${plan.color} p-1 rounded-2xl transform transition-all duration-300 hover:scale-105 ${
-                  plan.popular ? 'ring-4 ring-yellow-600/50 scale-105' : ''
+                className={`relative bg-gradient-to-b p-1 rounded-2xl transform transition-all duration-300 hover:scale-105 ${
+                  plan.id === 'vip' 
+                    ? 'border-2 border-orange-500' 
+                    : 'border border-gray-600'
+                } ${
+                  plan.popular ? 'scale-105' : ''
                 }`}
               >
                 {plan.popular && (
@@ -130,7 +133,7 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
 
                   <Button
                     onClick={() => handleSubscribe(plan.id)}
-                    className={`w-full bg-gradient-to-r ${plan.color} hover:from-yellow-500 hover:to-orange-500 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 animate-[pulse_2s_ease-in-out_infinite]`}
+                    className={`w-full bg-gradient-to-r ${plan.color} hover:from-yellow-500 hover:to-orange-500 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105`}
                   >
                     Assinar {plan.name}
                   </Button>
