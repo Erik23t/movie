@@ -10,9 +10,9 @@ const Termos = () => {
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="mb-8">
           <Link to="/">
-            <Button variant="outline" className="mb-6 text-white border-white hover:bg-white hover:text-black">
+            <Button variant="outline" className="mb-6 text-white border-white bg-transparent hover:bg-white hover:text-black transition-all duration-300">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Voltar para Página Principal
+              <span className="text-white hover:text-black">Voltar para Página Principal</span>
             </Button>
           </Link>
           <h1 className="text-4xl font-bold mb-4">Termos de Uso</h1>

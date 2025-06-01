@@ -39,7 +39,7 @@ const Footer = () => {
         <div className="mt-6">
           <Link 
             to="/"
-            className="inline-block bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-700 hover:to-gray-800 border border-gray-600 px-6 py-3 text-base rounded-full transition-all duration-300 transform hover:scale-105 animate-pulse"
+            className="inline-block bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-700 hover:to-gray-800 border border-gray-600 px-6 py-3 text-base rounded-full transition-all duration-300 transform hover:scale-105 animate-[pulse_3s_ease-in-out_infinite]"
           >
             Assinar Agora
           </Link>
