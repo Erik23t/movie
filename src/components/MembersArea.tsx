@@ -48,7 +48,7 @@ const MembersArea = () => {
               
               <Button 
                 onClick={() => setShowSubscriptionPlans(true)}
-                className="bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-700 hover:to-gray-800 border border-gray-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 animate-[pulse_2s_ease-in-out_infinite]"
+                className="bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-700 hover:to-gray-800 border border-gray-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105"
               >
                 <Crown className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
                 Assinar VIP
@@ -66,7 +66,7 @@ const MembersArea = () => {
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 text-center text-white">
           Modelos em Destaque
         </h2>
-        <ModelCarousel onVideoClick={() => setShowVideo(true)} />
+        <ModelCarousel onVideoClick={() => setShowVideo(true)} onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
       </div>
 
       {/* Vídeo Principal Centralizado com Efeito de Sombreamento */}
@@ -77,7 +77,7 @@ const MembersArea = () => {
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center text-white relative z-20">
           Conteúdo de Amostra
         </h2>
-        <SampleVideoCarousel />
+        <SampleVideoCarousel onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
       </div>
 
       {/* Carrossel Exclusivo para Assinantes */}
@@ -93,7 +93,7 @@ const MembersArea = () => {
         <div className="text-center mb-6 sm:mb-8">
           <button
             onClick={() => setShowSubscriptionPlans(true)}
-            className="inline-flex items-center justify-center bg-gradient-to-r from-yellow-600 to-orange-600 text-white px-6 py-3 rounded-full mb-4 hover:from-yellow-500 hover:to-orange-500 transition-all duration-300 transform hover:scale-105 animate-[pulse_2s_ease-in-out_infinite] cursor-pointer"
+            className="inline-flex items-center justify-center bg-gradient-to-r from-yellow-600 to-orange-600 text-white px-6 py-3 rounded-full mb-4 hover:from-yellow-500 hover:to-orange-500 transition-all duration-300 transform hover:scale-105 cursor-pointer"
           >
             <span className="text-lg sm:text-xl font-bold">🔥 OFERTA ESPECIAL - 60% OFF no 1º mês!</span>
           </button>

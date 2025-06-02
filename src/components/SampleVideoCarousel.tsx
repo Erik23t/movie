@@ -1,11 +1,18 @@
 
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight, X, Crown } from 'lucide-react';
 import { useSwipeable } from 'react-swipeable';
 
-const SampleVideoCarousel = () => {
+interface SampleVideoCarouselProps {
+  onSubscriptionClick: () => void;
+}
+
+const SampleVideoCarousel = ({ onSubscriptionClick }: SampleVideoCarouselProps) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [showSubscriptionPrompt, setShowSubscriptionPrompt] = useState(false);
+  const watchTimeRef = useRef(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const videos = [
     {
@@ -35,6 +42,26 @@ const SampleVideoCarousel = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    // Inicia o timer de 3 minutos quando o componente é montado
+    watchTimeRef.current = 0;
+    timerRef.current = setInterval(() => {
+      watchTimeRef.current += 1;
+      if (watchTimeRef.current >= 180) { // 3 minutos = 180 segundos
+        setShowSubscriptionPrompt(true);
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+        }
+      }
+    }, 1000);
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, []);
+
   const nextVideo = () => {
     setCurrentVideoIndex((prev) => (prev + 1) % videos.length);
   };
@@ -48,6 +75,15 @@ const SampleVideoCarousel = () => {
     onSwipedRight: prevVideo,
     trackMouse: true
   });
+
+  const handleSubscriptionClick = () => {
+    setShowSubscriptionPrompt(false);
+    onSubscriptionClick();
+  };
+
+  const closeSubscriptionPrompt = () => {
+    setShowSubscriptionPrompt(false);
+  };
 
   return (
     <div className="relative">
@@ -102,6 +138,51 @@ const SampleVideoCarousel = () => {
           </div>
         </div>
       </div>
+
+      {/* Prompt de Assinatura após 3 minutos */}
+      {showSubscriptionPrompt && (
+        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+          <div className="bg-black/95 backdrop-blur-lg rounded-2xl p-6 sm:p-8 max-w-md w-full relative border border-yellow-600/30">
+            <button
+              onClick={closeSubscriptionPrompt}
+              className="absolute top-4 right-4 bg-gray-600 text-white p-2 rounded-full hover:bg-gray-500 transition-all duration-300"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            
+            <div className="text-center">
+              <Crown className="h-12 w-12 mx-auto mb-4 text-yellow-600" />
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
+                Conteúdo Exclusivo VIP
+              </h3>
+              <p className="text-gray-300 mb-6">
+                Acesse conteúdo premium e exclusivo com nossa assinatura VIP
+              </p>
+              
+              {/* Oferta especial */}
+              <div className="bg-gradient-to-r from-yellow-600 to-orange-600 text-white px-4 py-2 rounded-full mb-4">
+                <span className="text-sm sm:text-base font-bold">🔥 OFERTA ESPECIAL - 60% OFF no 1º mês!</span>
+              </div>
+              
+              <div className="flex items-center justify-center gap-3 mb-2">
+                <span className="text-xl text-gray-400 line-through">$30</span>
+                <span className="text-3xl font-bold text-white">$12</span>
+                <span className="text-lg text-gray-300">/mês</span>
+              </div>
+              <p className="text-sm text-gray-400 mb-6">
+                Depois $30/mês. Cancele a qualquer momento.
+              </p>
+              
+              <button
+                onClick={handleSubscriptionClick}
+                className="w-full bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white py-3 px-6 rounded-xl text-lg font-semibold transition-all duration-300 transform hover:scale-105"
+              >
+                Assinar Agora
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

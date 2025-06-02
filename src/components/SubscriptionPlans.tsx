@@ -92,7 +92,7 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
                 key={plan.id}
                 className={`relative bg-gradient-to-b p-1 rounded-2xl transform transition-all duration-300 hover:scale-105 ${
                   plan.id === 'vip' 
-                    ? 'border-2 border-orange-500' 
+                    ? 'border border-orange-500' 
                     : 'border border-gray-600'
                 } ${
                   plan.popular ? 'scale-105' : ''

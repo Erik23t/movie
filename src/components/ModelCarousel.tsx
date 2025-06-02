@@ -4,9 +4,10 @@ import { useSwipeable } from 'react-swipeable';
 
 interface ModelCarouselProps {
   onVideoClick: () => void;
+  onSubscriptionClick: () => void;
 }
 
-const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
+const ModelCarousel = ({ onVideoClick, onSubscriptionClick }: ModelCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchedImages, setTouchedImages] = useState<Set<number>>(new Set());
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -425,7 +426,7 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
             </div>
 
             {/* Comentários dos assinantes */}
-            <div className="w-full max-w-md bg-black/80 backdrop-blur-sm rounded-lg p-4 space-y-4">
+            <div className="w-full max-w-md bg-black/80 backdrop-blur-sm rounded-lg p-4 space-y-4 mb-6">
               <h3 className="text-white text-lg font-semibold mb-4 text-center">
                 Comentários dos Assinantes
               </h3>
@@ -446,6 +447,31 @@ const ModelCarousel = ({ onVideoClick }: ModelCarouselProps) => {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Botão de Assinatura */}
+            <div className="w-full max-w-md bg-black/80 backdrop-blur-sm rounded-lg p-4">
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-yellow-600 to-orange-600 text-white px-4 py-2 rounded-full mb-3">
+                  <span className="text-sm font-bold">🔥 OFERTA ESPECIAL - 60% OFF no 1º mês!</span>
+                </div>
+                
+                <div className="flex items-center justify-center gap-3 mb-2">
+                  <span className="text-xl text-gray-400 line-through">$30</span>
+                  <span className="text-2xl font-bold text-white">$12</span>
+                  <span className="text-lg text-gray-300">/mês</span>
+                </div>
+                <p className="text-xs text-gray-400 mb-4">
+                  Depois $30/mês. Cancele a qualquer momento.
+                </p>
+                
+                <button
+                  onClick={onSubscriptionClick}
+                  className="w-full bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white py-3 px-6 rounded-xl text-base font-semibold transition-all duration-300 transform hover:scale-105"
+                >
+                  Assinar Agora
+                </button>
+              </div>
             </div>
           </div>
         </div>
