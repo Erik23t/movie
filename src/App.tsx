@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Termos from "./pages/Termos";
@@ -17,16 +17,7 @@ const queryClient = new QueryClient();
 const App = () => {
   const [isAgeVerified, setIsAgeVerified] = useState(false);
 
-  useEffect(() => {
-    // Verifica se o usuário já confirmou a idade anteriormente
-    const ageVerified = localStorage.getItem('ageVerified');
-    if (ageVerified === 'true') {
-      setIsAgeVerified(true);
-    }
-  }, []);
-
   const handleAgeConfirmation = () => {
-    localStorage.setItem('ageVerified', 'true');
     setIsAgeVerified(true);
   };
 
