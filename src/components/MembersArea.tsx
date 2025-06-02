@@ -8,6 +8,7 @@ import SubscriberCarousel from './SubscriberCarousel';
 import SubscriptionPlans from './SubscriptionPlans';
 import SampleVideoCarousel from './SampleVideoCarousel';
 import TestimonialsSection from './TestimonialsSection';
+import TopBar from './TopBar';
 
 const MembersArea = () => {
   const [showVideo, setShowVideo] = useState(false);
@@ -15,18 +16,11 @@ const MembersArea = () => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Banner Principal com Imagem */}
-      <div className="relative h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 overflow-hidden">
-        {/* Imagem de fundo do banner */}
-        <div className="absolute inset-0">
-          <img
-            src="https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg"
-            alt="Banner background"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/80"></div>
-        </div>
-        
+      {/* Nova Barra Superior */}
+      <TopBar onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
+      
+      {/* Banner Principal sem Imagem de Fundo */}
+      <div className="relative h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 overflow-hidden pt-16">
         <div className="relative z-10 flex items-center justify-center h-full px-4 sm:px-8">
           <div className="text-center max-w-4xl animate-fade-in">
             <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
@@ -108,11 +102,6 @@ const MembersArea = () => {
         </div>
         
         <SubscriberCarousel onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
-      </div>
-
-      {/* Seção de Comentários */}
-      <div className="py-8 sm:py-16 px-4 sm:px-8 bg-gradient-to-br from-gray-900 via-black to-gray-800">
-        <TestimonialsSection />
       </div>
 
       {/* Player de Vídeo */}

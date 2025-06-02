@@ -2,6 +2,7 @@
 import React from 'react';
 import { X, Check, Star, Crown, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import TestimonialsSection from './TestimonialsSection';
 
 interface SubscriptionPlansProps {
   onClose: () => void;
@@ -140,6 +141,11 @@ const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Seção de Comentários e Depoimentos */}
+          <div className="mt-8 sm:mt-12">
+            <TestimonialsSection />
           </div>
 
           <div className="mt-6 sm:mt-8 lg:mt-12 text-center">

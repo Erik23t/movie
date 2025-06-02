@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Lock } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Lock, Crown, Clock } from 'lucide-react';
 import { useSwipeable } from 'react-swipeable';
 
 interface SubscriberCarouselProps {
@@ -11,6 +10,8 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
   const [currentIndex1, setCurrentIndex1] = useState(0);
   const [currentIndex2, setCurrentIndex2] = useState(0);
   const [currentIndex3, setCurrentIndex3] = useState(0);
+  const [currentIndex4, setCurrentIndex4] = useState(0);
+  const [currentIndex5, setCurrentIndex5] = useState(0);
 
   // Primeira fileira - conteúdo exclusivo existente
   const exclusiveContent1 = [
@@ -174,6 +175,114 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
     }
   ];
 
+  // Quarta fileira - novo conteúdo VIP
+  const exclusiveContent4 = [
+    {
+      id: 31,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Platinum 1"
+    },
+    {
+      id: 32,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Platinum 2"
+    },
+    {
+      id: 33,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Platinum 3"
+    },
+    {
+      id: 34,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Platinum 4"
+    },
+    {
+      id: 35,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Platinum 5"
+    },
+    {
+      id: 36,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Platinum 6"
+    },
+    {
+      id: 37,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Platinum 7"
+    },
+    {
+      id: 38,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Platinum 8"
+    },
+    {
+      id: 39,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Platinum 9"
+    },
+    {
+      id: 40,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Platinum 10"
+    }
+  ];
+
+  // Quinta fileira - mais conteúdo VIP
+  const exclusiveContent5 = [
+    {
+      id: 41,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Diamond 1"
+    },
+    {
+      id: 42,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Diamond 2"
+    },
+    {
+      id: 43,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Diamond 3"
+    },
+    {
+      id: 44,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Diamond 4"
+    },
+    {
+      id: 45,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Diamond 5"
+    },
+    {
+      id: 46,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Diamond 6"
+    },
+    {
+      id: 47,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Diamond 7"
+    },
+    {
+      id: 48,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Diamond 8"
+    },
+    {
+      id: 49,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Diamond 9"
+    },
+    {
+      id: 50,
+      image: "https://i.postimg.cc/fyjgwkM7/Flux-Dev-A-stunning-3-D-render-of-a-magical-padlock-floating-in-1.jpg",
+      name: "Diamond 10"
+    }
+  ];
+
   const getItemsPerView = () => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth < 640) return 2; // Mobile: 2 items
@@ -196,6 +305,9 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
   const maxIndex1 = Math.max(0, exclusiveContent1.length - itemsPerView);
   const maxIndex2 = Math.max(0, exclusiveContent2.length - itemsPerView);
   const maxIndex3 = Math.max(0, exclusiveContent3.length - itemsPerView);
+
+  const maxIndex4 = Math.max(0, exclusiveContent4.length - itemsPerView);
+  const maxIndex5 = Math.max(0, exclusiveContent5.length - itemsPerView);
 
   const nextSlide1 = () => {
     setCurrentIndex1((prev) => (prev >= maxIndex1 ? 0 : prev + 1));
@@ -221,6 +333,22 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
     setCurrentIndex3((prev) => (prev <= 0 ? maxIndex3 : prev - 1));
   };
 
+  const nextSlide4 = () => {
+    setCurrentIndex4((prev) => (prev >= maxIndex4 ? 0 : prev + 1));
+  };
+
+  const prevSlide4 = () => {
+    setCurrentIndex4((prev) => (prev <= 0 ? maxIndex4 : prev - 1));
+  };
+
+  const nextSlide5 = () => {
+    setCurrentIndex5((prev) => (prev >= maxIndex5 ? 0 : prev + 1));
+  };
+
+  const prevSlide5 = () => {
+    setCurrentIndex5((prev) => (prev <= 0 ? maxIndex5 : prev - 1));
+  };
+
   const swipeHandlers1 = useSwipeable({
     onSwipedLeft: nextSlide1,
     onSwipedRight: prevSlide1,
@@ -239,21 +367,45 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
     trackMouse: true
   });
 
+  const swipeHandlers4 = useSwipeable({
+    onSwipedLeft: nextSlide4,
+    onSwipedRight: prevSlide4,
+    trackMouse: true
+  });
+
+  const swipeHandlers5 = useSwipeable({
+    onSwipedLeft: nextSlide5,
+    onSwipedRight: prevSlide5,
+    trackMouse: true
+  });
+
   const renderCarousel = (
     content: any[], 
     currentIndex: number, 
     nextSlide: () => void, 
     prevSlide: () => void, 
     swipeHandlers: any,
-    title: string
+    title: string,
+    crownColor: string,
+    isSpecial?: boolean
   ) => {
     const translatePercentage = (100 / itemsPerView) * currentIndex;
 
     return (
       <div className="mb-8">
-        <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 text-center">
-          {title}
-        </h3>
+        <div className="flex items-center justify-center mb-4">
+          <h3 className="text-xl sm:text-2xl font-bold text-white text-center">
+            {title}
+          </h3>
+          {isSpecial && (
+            <div className="flex items-center ml-4">
+              <Clock className="h-5 w-5 text-yellow-500 mr-2" />
+              <span className="text-yellow-500 font-bold text-sm">
+                Promoção: $79/ano
+              </span>
+            </div>
+          )}
+        </div>
         <div className="relative">
           <div className="flex items-center justify-between mb-4">
             <button
@@ -292,6 +444,12 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
                         className="w-full object-cover filter grayscale"
                         style={{ width: '152px', height: '250px' }}
                       />
+                      
+                      {/* Ícone da coroa colorida no canto direito */}
+                      <div className="absolute top-2 right-2">
+                        <Crown className={`h-4 w-4 sm:h-5 sm:w-5 ${crownColor}`} />
+                      </div>
+                      
                       {/* Overlay escuro para dar efeito de bloqueado */}
                       <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                         <div className="text-center">
@@ -322,34 +480,60 @@ const SubscriberCarousel = ({ onSubscriptionClick }: SubscriberCarouselProps) =>
 
   return (
     <div className="relative">
-      {/* Primeira fileira - Conteúdo Exclusivo VIP */}
+      {/* Primeira fileira - Conteúdo Exclusivo VIP com coroa branca */}
       {renderCarousel(
         exclusiveContent1, 
         currentIndex1, 
         nextSlide1, 
         prevSlide1, 
         swipeHandlers1,
-        "Conteúdo Exclusivo VIP"
+        "Conteúdo Exclusivo VIP",
+        "text-white"
       )}
 
-      {/* Segunda fileira - Conteúdo Premium */}
+      {/* Segunda fileira - Conteúdo Premium com coroa prata */}
       {renderCarousel(
         exclusiveContent2, 
         currentIndex2, 
         nextSlide2, 
         prevSlide2, 
         swipeHandlers2,
-        "Coleção Premium"
+        "Coleção Premium",
+        "text-gray-400"
       )}
 
-      {/* Terceira fileira - Conteúdo Elite */}
+      {/* Terceira fileira - Conteúdo Elite com coroa laranja e destaque especial */}
       {renderCarousel(
         exclusiveContent3, 
         currentIndex3, 
         nextSlide3, 
         prevSlide3, 
         swipeHandlers3,
-        "Coleção Elite"
+        "Coleção Elite",
+        "text-orange-500",
+        true
+      )}
+
+      {/* Quarta fileira - Coleção Platinum */}
+      {renderCarousel(
+        exclusiveContent4, 
+        currentIndex4, 
+        nextSlide4, 
+        prevSlide4, 
+        swipeHandlers4,
+        "Coleção Platinum",
+        "text-orange-500"
+      )}
+
+      {/* Quinta fileira - Coleção Diamond */}
+      {renderCarousel(
+        exclusiveContent5, 
+        currentIndex5, 
+        nextSlide5, 
+        prevSlide5, 
+        swipeHandlers5,
+        "Coleção Diamond",
+        "text-orange-500"
       )}
       
       {/* Mensagem de assinatura */}
