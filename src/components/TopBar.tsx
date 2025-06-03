@@ -1,23 +1,54 @@
 
-import React, { useState } from 'react';
-import { User, X, Menu } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { User, X, Menu, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useAutoTranslation } from '@/hooks/useAutoTranslation';
+import { supabase } from '@/integrations/supabase/client';
+import AuthModal from './AuthModal';
 
 interface TopBarProps {
   onSubscriptionClick: () => void;
 }
 
 const TopBar = ({ onSubscriptionClick }: TopBarProps) => {
+  const { t } = useAutoTranslation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Check for existing auth session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleAuthSuccess = () => {
+    setShowAuthModal(false);
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <>
-      {/* Barra Superior */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-900 via-black to-gray-900 border-b border-yellow-600/30">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center">
             <h1 className="text-xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
-              VIP CLUB
+              {t('vipClub')}
             </h1>
           </div>
           
@@ -27,15 +58,27 @@ const TopBar = ({ onSubscriptionClick }: TopBarProps) => {
               onClick={onSubscriptionClick}
               className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white px-4 py-2 rounded-full"
             >
-              Assinar VIP
+              {t('subscribeVip')}
             </Button>
-            <Button
-              variant="outline"
-              className="border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-black"
-            >
-              <User className="h-4 w-4 mr-2" />
-              Login
-            </Button>
+            {user ? (
+              <Button
+                onClick={handleLogout}
+                variant="outline"
+                className="border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-black"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                {t('logout')}
+              </Button>
+            ) : (
+              <Button
+                onClick={() => setShowAuthModal(true)}
+                variant="outline"
+                className="border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-black"
+              >
+                <User className="h-4 w-4 mr-2" />
+                {t('login')}
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -79,18 +122,38 @@ const TopBar = ({ onSubscriptionClick }: TopBarProps) => {
                 }}
                 className="w-full bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white"
               >
-                Assinar VIP
+                {t('subscribeVip')}
               </Button>
-              <Button
-                variant="outline"
-                className="w-full border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-black"
-              >
-                <User className="h-4 w-4 mr-2" />
-                Login / Cadastro
-              </Button>
+              {user ? (
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
+                  className="w-full border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-black"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  {t('logout')}
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => setShowAuthModal(true)}
+                  variant="outline"
+                  className="w-full border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-black"
+                >
+                  <User className="h-4 w-4 mr-2" />
+                  {t('login')} / Cadastro
+                </Button>
+              )}
             </div>
           </div>
         </div>
+      )}
+
+      {/* Auth Modal */}
+      {showAuthModal && (
+        <AuthModal 
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={handleAuthSuccess}
+        />
       )}
     </>
   );

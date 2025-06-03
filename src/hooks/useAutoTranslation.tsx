@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 
 interface TranslationData {
   [key: string]: {
@@ -15,17 +15,21 @@ const translations: TranslationData = {
     'ageVerificationConfirm': 'Sim, sou maior de 18 anos',
     'ageVerificationDecline': 'Não, sair do site',
     'ageVerificationDisclaimer': 'Ao continuar, você confirma que tem idade legal para visualizar este conteúdo em sua jurisdição.',
-    'exclusiveContent': 'Área Exclusiva para Membros',
-    'subscriptionPlans': 'Escolha Seu Plano',
-    'subscriptionSubtext': 'Acesse conteúdo exclusivo e premium',
-    'basicPlan': 'Básico',
-    'premiumPlan': 'Premium',
-    'vipPlan': 'VIP Exclusivo',
-    'subscribeButton': 'Assinar',
+    'exclusiveContent': 'ÁREA EXCLUSIVA',
+    'exclusiveContentDesc': 'Conteúdo premium especialmente selecionado para você',
+    'playContent': 'Reproduzir Conteúdo',
+    'subscribeVip': 'Assinar VIP',
+    'featuredModels': 'Modelos em Destaque',
+    'sampleContent': 'Conteúdo de Amostra',
+    'exclusiveContentVip': 'Conteúdo Exclusivo VIP',
+    'premiumAccess': 'Acesse conteúdo premium e exclusivo com nossa assinatura VIP',
     'specialOffer': '🔥 OFERTA ESPECIAL - 60% OFF no 1º mês!',
     'afterPrice': 'Depois $30/mês. Cancele a qualquer momento.',
-    'exclusiveContentVip': 'Conteúdo Exclusivo VIP',
-    'premiumAccess': 'Acesse conteúdo premium e exclusivo com nossa assinatura VIP'
+    'eliteCollection': 'Coleção Elite',
+    'premiumCollection': 'Coleção Premium',
+    'vipClub': 'VIP CLUB',
+    'login': 'Login',
+    'logout': 'Sair'
   },
   'en-US': {
     'ageVerificationTitle': 'Age Verification',
@@ -34,17 +38,21 @@ const translations: TranslationData = {
     'ageVerificationConfirm': 'Yes, I am 18 or older',
     'ageVerificationDecline': 'No, exit site',
     'ageVerificationDisclaimer': 'By continuing, you confirm that you are of legal age to view this content in your jurisdiction.',
-    'exclusiveContent': 'Exclusive Members Area',
-    'subscriptionPlans': 'Choose Your Plan',
-    'subscriptionSubtext': 'Access exclusive and premium content',
-    'basicPlan': 'Basic',
-    'premiumPlan': 'Premium',
-    'vipPlan': 'VIP Exclusive',
-    'subscribeButton': 'Subscribe',
+    'exclusiveContent': 'EXCLUSIVE AREA',
+    'exclusiveContentDesc': 'Premium content specially selected for you',
+    'playContent': 'Play Content',
+    'subscribeVip': 'Subscribe VIP',
+    'featuredModels': 'Featured Models',
+    'sampleContent': 'Sample Content',
+    'exclusiveContentVip': 'VIP Exclusive Content',
+    'premiumAccess': 'Access premium and exclusive content with our VIP subscription',
     'specialOffer': '🔥 SPECIAL OFFER - 60% OFF 1st month!',
     'afterPrice': 'Then $30/month. Cancel anytime.',
-    'exclusiveContentVip': 'VIP Exclusive Content',
-    'premiumAccess': 'Access premium and exclusive content with our VIP subscription'
+    'eliteCollection': 'Elite Collection',
+    'premiumCollection': 'Premium Collection',
+    'vipClub': 'VIP CLUB',
+    'login': 'Login',
+    'logout': 'Logout'
   },
   'es-ES': {
     'ageVerificationTitle': 'Verificación de Edad',
@@ -53,104 +61,60 @@ const translations: TranslationData = {
     'ageVerificationConfirm': 'Sí, soy mayor de 18 años',
     'ageVerificationDecline': 'No, salir del sitio',
     'ageVerificationDisclaimer': 'Al continuar, confirmas que tienes la edad legal para ver este contenido en tu jurisdicción.',
-    'exclusiveContent': 'Área Exclusiva para Miembros',
-    'subscriptionPlans': 'Elige Tu Plan',
-    'subscriptionSubtext': 'Accede a contenido exclusivo y premium',
-    'basicPlan': 'Básico',
-    'premiumPlan': 'Premium',
-    'vipPlan': 'VIP Exclusivo',
-    'subscribeButton': 'Suscribirse',
+    'exclusiveContent': 'ÁREA EXCLUSIVA',
+    'exclusiveContentDesc': 'Contenido premium especialmente seleccionado para ti',
+    'playContent': 'Reproducir Contenido',
+    'subscribeVip': 'Suscribirse VIP',
+    'featuredModels': 'Modelos Destacados',
+    'sampleContent': 'Contenido de Muestra',
+    'exclusiveContentVip': 'Contenido Exclusivo VIP',
+    'premiumAccess': 'Accede a contenido premium y exclusivo con nuestra suscripción VIP',
     'specialOffer': '🔥 OFERTA ESPECIAL - 60% OFF primer mes!',
     'afterPrice': 'Luego $30/mes. Cancela en cualquier momento.',
-    'exclusiveContentVip': 'Contenido Exclusivo VIP',
-    'premiumAccess': 'Accede a contenido premium y exclusivo con nuestra suscripción VIP'
-  },
-  'fr-FR': {
-    'ageVerificationTitle': 'Vérification d\'âge',
-    'ageVerificationText': 'Vous devez avoir 18 ans ou plus pour accéder à ce contenu.',
-    'ageVerificationSubtext': 'Ce site contient du matériel réservé aux adultes.',
-    'ageVerificationConfirm': 'Oui, j\'ai 18 ans ou plus',
-    'ageVerificationDecline': 'Non, quitter le site',
-    'ageVerificationDisclaimer': 'En continuant, vous confirmez que vous avez l\'âge légal pour voir ce contenu dans votre juridiction.',
-    'exclusiveContent': 'Zone Exclusive aux Membres',
-    'subscriptionPlans': 'Choisissez Votre Plan',
-    'subscriptionSubtext': 'Accédez au contenu exclusif et premium',
-    'basicPlan': 'Basique',
-    'premiumPlan': 'Premium',
-    'vipPlan': 'VIP Exclusif',
-    'subscribeButton': 'S\'abonner',
-    'specialOffer': '🔥 OFFRE SPÉCIALE - 60% OFF 1er mois!',
-    'afterPrice': 'Puis $30/mois. Annulez à tout moment.',
-    'exclusiveContentVip': 'Contenu Exclusif VIP',
-    'premiumAccess': 'Accédez au contenu premium et exclusif avec notre abonnement VIP'
+    'eliteCollection': 'Colección Elite',
+    'premiumCollection': 'Colección Premium',
+    'vipClub': 'CLUB VIP',
+    'login': 'Iniciar Sesión',
+    'logout': 'Cerrar Sesión'
   }
 };
 
-export const useAutoTranslation = () => {
-  const [language, setLanguage] = useState<string>('en-US');
-  const [isLoading, setIsLoading] = useState(true);
+interface TranslationContextType {
+  language: string;
+  t: (key: string) => string;
+  setLanguage: (lang: string) => void;
+}
 
-  const detectUserLocation = async () => {
-    try {
-      // Primeiro, tenta detectar pelo navegador
-      const browserLang = navigator.language || navigator.languages[0];
-      
-      // Mapeia códigos de país para idiomas
-      const countryToLanguage: { [key: string]: string } = {
-        'BR': 'pt-BR',
-        'US': 'en-US',
-        'CA': 'en-US',
-        'GB': 'en-US',
-        'AU': 'en-US',
-        'ES': 'es-ES',
-        'MX': 'es-ES',
-        'AR': 'es-ES',
-        'FR': 'fr-FR',
-        'BE': 'fr-FR',
-        'CH': 'fr-FR'
-      };
+const TranslationContext = createContext<TranslationContextType | null>(null);
 
-      // Tenta detectar pelo IP usando um serviço gratuito
-      try {
-        const response = await fetch('https://ipapi.co/json/');
-        const data = await response.json();
-        const countryCode = data.country_code;
-        
-        if (countryToLanguage[countryCode]) {
-          setLanguage(countryToLanguage[countryCode]);
-          setIsLoading(false);
-          return;
-        }
-      } catch (error) {
-        console.log('Falha na detecção por IP, usando idioma do navegador');
-      }
+export const TranslationProvider = ({ children, initialLanguage }: { children: React.ReactNode; initialLanguage?: string }) => {
+  const [language, setLanguageState] = useState<string>(initialLanguage || 'pt-BR');
 
-      // Fallback para o idioma do navegador
-      if (browserLang.startsWith('pt')) {
-        setLanguage('pt-BR');
-      } else if (browserLang.startsWith('es')) {
-        setLanguage('es-ES');
-      } else if (browserLang.startsWith('fr')) {
-        setLanguage('fr-FR');
-      } else {
-        setLanguage('en-US');
-      }
-      
-    } catch (error) {
-      console.error('Erro na detecção de idioma:', error);
-      setLanguage('en-US');
-    } finally {
-      setIsLoading(false);
-    }
+  const setLanguage = (lang: string) => {
+    setLanguageState(lang);
+    localStorage.setItem('selectedLanguage', lang);
   };
-
-  useEffect(() => {
-    detectUserLocation();
-  }, []);
 
   const t = (key: string): string => {
-    return translations[language]?.[key] || translations['en-US'][key] || key;
+    return translations[language]?.[key] || translations['pt-BR'][key] || key;
   };
 
-  return { language, t, isLoading };
+  return (
+    <TranslationContext.Provider value={{ language, t, setLanguage }}>
+      {children}
+    </TranslationContext.Provider>
+  );
+};
+
+export const useAutoTranslation = () => {
+  const context = useContext(TranslationContext);
+  if (!context) {
+    // Fallback for components not wrapped in provider
+    return {
+      language: 'pt-BR',
+      t: (key: string) => translations['pt-BR'][key] || key,
+      setLanguage: () => {}
+    };
+  }
+  return context;
 };
