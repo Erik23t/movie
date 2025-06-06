@@ -6,10 +6,11 @@ import { Play, Crown } from 'lucide-react';
 
 interface SubscriberCarouselProps {
   onSubscriptionClick: () => void;
+  onVideoClick: (videoUrl: string) => void;
   collectionType?: 'exclusive' | 'premium' | 'elite';
 }
 
-const SubscriberCarousel = ({ onSubscriptionClick, collectionType = 'exclusive' }: SubscriberCarouselProps) => {
+const SubscriberCarousel = ({ onSubscriptionClick, onVideoClick, collectionType = 'exclusive' }: SubscriberCarouselProps) => {
   const getCrownColor = () => {
     switch (collectionType) {
       case 'elite':
@@ -120,6 +121,14 @@ const SubscriberCarousel = ({ onSubscriptionClick, collectionType = 'exclusive' 
 
   const items = getVideoData();
 
+  const handleVideoClick = (item: any) => {
+    if (item.videoUrl) {
+      onVideoClick(item.videoUrl);
+    } else {
+      onSubscriptionClick();
+    }
+  };
+
   return (
     <div className="relative">
       <Carousel
@@ -133,7 +142,7 @@ const SubscriberCarousel = ({ onSubscriptionClick, collectionType = 'exclusive' 
           {items.map((item) => (
             <CarouselItem key={item.id} className="pl-2 md:pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6">
               <div className="group relative">
-                <div className="relative overflow-hidden rounded-xl bg-gray-800 aspect-[3/4]">
+                <div className="relative overflow-hidden rounded-xl bg-gray-800 aspect-[3/4] cursor-pointer" onClick={() => handleVideoClick(item)}>
                   {/* Crown Icon */}
                   <div className="absolute top-2 right-2 z-20">
                     <Crown className={`h-6 w-6 ${getCrownColor()}`} />
@@ -147,11 +156,10 @@ const SubscriberCarousel = ({ onSubscriptionClick, collectionType = 'exclusive' 
                   
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <Button
-                      onClick={onSubscriptionClick}
                       className="bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30"
                     >
                       <Play className="h-4 w-4 mr-2" />
-                      Assinar para Ver
+                      {item.videoUrl ? 'Assistir' : 'Assinar para Ver'}
                     </Button>
                   </div>
                   

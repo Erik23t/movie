@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Play, Crown, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,12 +9,20 @@ import SubscriptionPlans from './SubscriptionPlans';
 import SampleVideoCarousel from './SampleVideoCarousel';
 import TestimonialsSection from './TestimonialsSection';
 import TopBar from './TopBar';
+import FullscreenVideoPlayer from './FullscreenVideoPlayer';
 import { useAutoTranslation } from '@/hooks/useAutoTranslation';
 
 const MembersArea = () => {
   const { t } = useAutoTranslation();
   const [showVideo, setShowVideo] = useState(false);
   const [showSubscriptionPlans, setShowSubscriptionPlans] = useState(false);
+  const [showFullscreenVideo, setShowFullscreenVideo] = useState(false);
+  const [currentVideoUrl, setCurrentVideoUrl] = useState('');
+
+  const handleVideoClick = (videoUrl: string) => {
+    setCurrentVideoUrl(videoUrl);
+    setShowFullscreenVideo(true);
+  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -98,7 +107,10 @@ const MembersArea = () => {
           </p>
         </div>
         
-        <SubscriberCarousel onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
+        <SubscriberCarousel 
+          onSubscriptionClick={() => setShowSubscriptionPlans(true)} 
+          onVideoClick={handleVideoClick}
+        />
 
         {/* Coleção Elite com destaque especial */}
         <div className="mt-16">
@@ -129,6 +141,7 @@ const MembersArea = () => {
           
           <SubscriberCarousel 
             onSubscriptionClick={() => setShowSubscriptionPlans(true)} 
+            onVideoClick={() => setShowSubscriptionPlans(true)}
             collectionType="elite"
           />
         </div>
@@ -137,6 +150,7 @@ const MembersArea = () => {
         <div className="mt-16">
           <SubscriberCarousel 
             onSubscriptionClick={() => setShowSubscriptionPlans(true)} 
+            onVideoClick={() => setShowSubscriptionPlans(true)}
             collectionType="elite"
           />
         </div>
@@ -147,6 +161,14 @@ const MembersArea = () => {
         <VideoPlayer 
           videoUrl="https://d29xs8vub7bm1d.cloudfront.net/Psychological%20_hack_%20-%201280x720%202604K.mp4"
           onClose={() => setShowVideo(false)}
+        />
+      )}
+
+      {/* Player de Vídeo em Tela Cheia */}
+      {showFullscreenVideo && (
+        <FullscreenVideoPlayer 
+          videoUrl={currentVideoUrl}
+          onClose={() => setShowFullscreenVideo(false)}
         />
       )}
 
