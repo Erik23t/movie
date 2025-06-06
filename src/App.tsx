@@ -11,7 +11,6 @@ import Termos from "./pages/Termos";
 import Privacidade from "./pages/Privacidade";
 import Suporte from "./pages/Suporte";
 import TranslatedAgeVerification from "./components/TranslatedAgeVerification";
-import LanguageSelection from "./components/LanguageSelection";
 import { TranslationProvider } from "./hooks/useAutoTranslation";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -19,53 +18,62 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const [isAgeVerified, setIsAgeVerified] = useState(false);
-  const [showLanguageSelection, setShowLanguageSelection] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState<string>('pt-BR');
   const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
 
   useEffect(() => {
-    // Check for existing auth session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    // Listen for auth changes
+    console.log('Verificando conexão com Supabase...');
+    
+    // Configurar listener de autenticação PRIMEIRO
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log('Auth event:', event, 'Session:', session);
+        setSession(session);
         setUser(session?.user ?? null);
       }
     );
+
+    // DEPOIS verificar sessão existente
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) {
+        console.error('Erro ao obter sessão:', error);
+      } else {
+        console.log('Sessão atual:', session);
+        setSession(session);
+        setUser(session?.user ?? null);
+      }
+    });
+
+    // Testar conexão com o banco
+    const testConnection = async () => {
+      try {
+        const { data, error } = await supabase.from('profiles').select('count');
+        if (error) {
+          console.log('Tabela profiles não existe ainda, isso é normal se não foi criada.');
+        } else {
+          console.log('Conexão com Supabase funcionando!');
+        }
+      } catch (err) {
+        console.error('Erro na conexão:', err);
+      }
+    };
+
+    testConnection();
 
     return () => subscription.unsubscribe();
   }, []);
 
   const handleAgeConfirmation = () => {
     setIsAgeVerified(true);
-    setShowLanguageSelection(true);
-  };
-
-  const handleLanguageSelection = (language: string) => {
-    setSelectedLanguage(language);
-    setShowLanguageSelection(false);
   };
 
   if (!isAgeVerified) {
     return (
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <TranslationProvider initialLanguage={selectedLanguage}>
+          <TranslationProvider initialLanguage="pt-BR">
             <TranslatedAgeVerification onConfirm={handleAgeConfirmation} />
           </TranslationProvider>
-        </TooltipProvider>
-      </QueryClientProvider>
-    );
-  }
-
-  if (showLanguageSelection) {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <LanguageSelection onLanguageSelect={handleLanguageSelection} />
         </TooltipProvider>
       </QueryClientProvider>
     );
@@ -74,7 +82,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <TranslationProvider initialLanguage={selectedLanguage}>
+        <TranslationProvider initialLanguage="pt-BR">
           <Toaster />
           <Sonner />
           <BrowserRouter>

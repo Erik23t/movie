@@ -24,26 +24,60 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
     setLoading(true);
     setError('');
 
+    console.log('Tentando autenticação:', { isLogin, email });
+
     try {
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
-        if (error) throw error;
+        
+        console.log('Resultado do login:', { data, error });
+        
+        if (error) {
+          throw error;
+        }
+        
+        console.log('Login realizado com sucesso!');
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/`
           }
         });
-        if (error) throw error;
+        
+        console.log('Resultado do cadastro:', { data, error });
+        
+        if (error) {
+          throw error;
+        }
+        
+        if (data.user && !data.session) {
+          setError('Verifique seu email para confirmar a conta!');
+          return;
+        }
+        
+        console.log('Cadastro realizado com sucesso!');
       }
+      
       onSuccess();
     } catch (error: any) {
-      setError(error.message);
+      console.error('Erro na autenticação:', error);
+      
+      // Traduzir erros comuns
+      let errorMessage = error.message;
+      if (error.message.includes('Invalid login credentials')) {
+        errorMessage = 'Email ou senha incorretos';
+      } else if (error.message.includes('User already registered')) {
+        errorMessage = 'Este email já está cadastrado';
+      } else if (error.message.includes('Password should be at least 6 characters')) {
+        errorMessage = 'A senha deve ter pelo menos 6 caracteres';
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -86,17 +120,20 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
               <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <Input
                 type="password"
-                placeholder="Senha"
+                placeholder="Senha (min. 6 caracteres)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-10 bg-gray-900 border-gray-600 text-white"
                 required
+                minLength={6}
               />
             </div>
           </div>
 
           {error && (
-            <p className="text-red-500 text-sm">{error}</p>
+            <div className="p-3 bg-red-500/20 border border-red-500/30 rounded text-red-300 text-sm">
+              {error}
+            </div>
           )}
 
           <Button
@@ -115,6 +152,10 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
           >
             {isLogin ? 'Não tem conta? Cadastre-se' : 'Já tem conta? Faça login'}
           </button>
+        </div>
+        
+        <div className="mt-4 text-xs text-gray-400 text-center">
+          Conexão Supabase: {window.location.hostname}
         </div>
       </div>
     </div>

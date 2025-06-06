@@ -15,29 +15,51 @@ const TopBar = ({ onSubscriptionClick }: TopBarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
 
   useEffect(() => {
-    // Check for existing auth session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    // Listen for auth changes
+    console.log('TopBar: Configurando auth listener...');
+    
+    // Configurar listener de autenticação
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log('TopBar Auth event:', event, 'Session:', session);
+        setSession(session);
         setUser(session?.user ?? null);
       }
     );
+
+    // Verificar sessão existente
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) {
+        console.error('TopBar: Erro ao obter sessão:', error);
+      } else {
+        console.log('TopBar: Sessão atual:', session);
+        setSession(session);
+        setUser(session?.user ?? null);
+      }
+    });
 
     return () => subscription.unsubscribe();
   }, []);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    try {
+      console.log('Fazendo logout...');
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Erro no logout:', error);
+      } else {
+        console.log('Logout realizado com sucesso!');
+      }
+    } catch (err) {
+      console.error('Erro inesperado no logout:', err);
+    }
     setIsMobileMenuOpen(false);
   };
 
   const handleAuthSuccess = () => {
+    console.log('Auth success - fechando modal');
     setShowAuthModal(false);
     setIsMobileMenuOpen(false);
   };
@@ -50,6 +72,11 @@ const TopBar = ({ onSubscriptionClick }: TopBarProps) => {
             <h1 className="text-xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
               {t('vipClub')}
             </h1>
+            {user && (
+              <span className="ml-3 text-sm text-gray-400">
+                {user.email}
+              </span>
+            )}
           </div>
           
           {/* Desktop Menu */}
@@ -115,6 +142,12 @@ const TopBar = ({ onSubscriptionClick }: TopBarProps) => {
             </div>
             
             <div className="p-4 space-y-4">
+              {user && (
+                <div className="text-sm text-gray-400 mb-4">
+                  Logado como: {user.email}
+                </div>
+              )}
+              
               <Button
                 onClick={() => {
                   onSubscriptionClick();
