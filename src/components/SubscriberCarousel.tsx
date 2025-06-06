@@ -106,8 +106,17 @@ const SubscriberCarousel = ({ onSubscriptionClick, onVideoClick, collectionType 
           isLocked: false,
         }
       ];
+    } else if (collectionType === 'elite') {
+      // Para elite, usar a nova imagem e gerar 10 conteúdos
+      return Array.from({ length: 10 }, (_, i) => ({
+        id: i + 1,
+        title: `Elite Conteúdo ${i + 1}`,
+        duration: `${Math.floor(Math.random() * 20) + 5}:${Math.floor(Math.random() * 60).toString().padStart(2, '0')}`,
+        thumbnail: 'https://i.postimg.cc/rmFjw1MM/Design-sem-nome-2.jpg',
+        isLocked: true,
+      }));
     } else {
-      // Para elite e premium, gerar conteúdo placeholder
+      // Para premium, gerar conteúdo placeholder
       const count = 10;
       return Array.from({ length: count }, (_, i) => ({
         id: i + 1,
