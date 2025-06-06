@@ -1,164 +1,178 @@
-
 import React from 'react';
-import { X, Check, Star, Crown, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import TestimonialsSection from './TestimonialsSection';
+import { useAutoTranslation } from '@/hooks/useAutoTranslation';
 
 interface SubscriptionPlansProps {
   onClose: () => void;
 }
 
-const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
-  const plans = [
-    {
-      id: 'basic',
-      name: 'Básico',
-      price: 'R$ 19,90',
-      period: '/mês',
-      icon: <Star className="h-8 w-8" />,
-      color: 'from-yellow-600 to-orange-600',
-      features: [
-        'Acesso a conteúdo básico',
-        'Qualidade HD',
-        '1 dispositivo simultâneo',
-        'Suporte por email'
-      ]
-    },
-    {
-      id: 'premium',
-      name: 'Premium',
-      price: 'R$ 39,90',
-      period: '/mês',
-      icon: <Crown className="h-8 w-8" />,
-      color: 'from-yellow-600 to-orange-600',
-      features: [
-        'Acesso a todo conteúdo',
-        'Qualidade 4K Ultra HD',
-        '3 dispositivos simultâneos',
-        'Conteúdo exclusivo VIP',
-        'Suporte prioritário',
-        'Download offline'
-      ],
-      popular: true
-    },
-    {
-      id: 'vip',
-      name: 'VIP Exclusivo',
-      price: 'R$ 79,90',
-      period: '/mês',
-      icon: <Zap className="h-8 w-8" />,
-      color: 'from-yellow-600 to-orange-600',
-      features: [
-        'Acesso completo ilimitado',
-        'Qualidade 8K',
-        '5 dispositivos simultâneos',
-        'Conteúdo exclusivo premium',
-        'Lives exclusivas',
-        'Suporte VIP 24/7',
-        'Acesso antecipado'
-      ]
-    }
-  ];
+const testimonials = [
+  {
+    name: 'Maria Silva',
+    avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
+    rating: 5,
+    comment: 'A assinatura VIP mudou a forma como aproveito meu tempo livre. Conteúdo exclusivo e de alta qualidade!'
+  },
+  {
+    name: 'João Alves',
+    avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
+    rating: 4,
+    comment: 'Ótimo custo-benefício! O acesso ilimitado e a qualidade HD valem cada centavo.'
+  },
+  {
+    name: 'Carla Zambelli',
+    avatar: 'https://randomuser.me/api/portraits/women/3.jpg',
+    rating: 5,
+    comment: 'Finalmente encontrei um serviço de assinatura que oferece conteúdo diversificado e sem anúncios irritantes.'
+  },
+  {
+    name: 'Ricardo Pereira',
+    avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
+    rating: 4,
+    comment: 'Acesso móvel é perfeito para quem está sempre em movimento. Consigo assistir meus conteúdos favoritos em qualquer lugar.'
+  },
+  {
+    name: 'Ana Clara',
+    avatar: 'https://randomuser.me/api/portraits/women/5.jpg',
+    rating: 5,
+    comment: 'A possibilidade de cancelar a assinatura a qualquer momento me dá segurança para experimentar novos conteúdos.'
+  },
+  {
+    name: 'Bruno Gagliasso',
+    avatar: 'https://randomuser.me/api/portraits/men/6.jpg',
+    rating: 5,
+    comment: 'Conteúdo exclusivo e de alta qualidade, recomendo a todos!'
+  }
+];
 
-  const handleSubscribe = (planId: string) => {
-    console.log(`Selecionado plano: ${planId}`);
-    alert(`Redirecionando para pagamento do plano ${planId}`);
+const SubscriptionPlans = ({ onClose }: SubscriptionPlansProps) => {
+  const { t } = useAutoTranslation();
+
+  const plan = {
+    name: t('vipPlan'),
+    price: '$12',
+    originalPrice: '$30',
+    period: t('month'),
+    features: [
+      t('unlimitedAccess'),
+      t('hdQuality'),
+      t('noAds'),
+      t('mobileAccess'),
+      t('cancelAnytime')
+    ],
+    highlight: true
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/95 flex items-start justify-center p-4 overflow-y-auto">
-      <div className="relative w-full max-w-7xl my-8">
-        {/* Botão fechar */}
-        <button
+    <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-black border border-orange-500 rounded-2xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <Button
           onClick={onClose}
-          className="absolute -top-4 right-0 sm:-top-8 sm:right-4 bg-gradient-to-r from-yellow-600 to-orange-600 p-2 sm:p-3 rounded-full hover:from-yellow-500 hover:to-orange-500 transition-all duration-300 transform hover:scale-110 z-10"
+          variant="ghost"
+          className="absolute top-4 right-4 text-gray-300 hover:text-white"
         >
-          <X className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-        </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+          <span className="sr-only">Close</span>
+        </Button>
 
-        {/* Conteúdo dos planos */}
-        <div className="bg-black/90 backdrop-blur-lg rounded-2xl p-4 sm:p-6 lg:p-8 border border-yellow-600/30">
-          <div className="text-center mb-6 sm:mb-8 lg:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
-              Escolha Seu Plano
-            </h2>
-            <p className="text-gray-300 text-base sm:text-lg lg:text-xl">
-              Acesse conteúdo exclusivo e premium
+        <div className="text-center mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            {t('subscriptionPlans')}
+          </h2>
+          <p className="text-gray-300 text-lg">
+            {t('chooseYourPlan')}
+          </p>
+        </div>
+
+        {/* Plano VIP único */}
+        <div className="max-w-md mx-auto mb-12">
+          <div className="bg-gradient-to-b from-orange-600/20 to-yellow-600/20 border-2 border-orange-500 rounded-2xl p-8 text-center relative">
+            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+              <span className="bg-orange-600 text-white px-4 py-2 rounded-full text-sm font-bold">
+                {t('mostPopular')}
+              </span>
+            </div>
+            
+            <h3 className="text-2xl font-bold text-white mb-4">
+              Conteúdo Exclusivo VIP
+            </h3>
+            <p className="text-gray-300 mb-6">
+              Acesse conteúdo premium e exclusivo com nossa assinatura VIP
             </p>
+            
+            <div className="mb-6">
+              <div className="text-orange-400 font-bold text-lg mb-2">
+                🔥 OFERTA ESPECIAL - 60% OFF no 1º mês!
+              </div>
+              <div className="flex items-center justify-center gap-4">
+                <span className="text-2xl text-gray-400 line-through">$30</span>
+                <span className="text-4xl font-bold text-orange-400">$12</span>
+                <span className="text-xl text-gray-300">/mês</span>
+              </div>
+              <p className="text-sm text-gray-400 mt-2">
+                Depois $30/mês. Cancele a qualquer momento.
+              </p>
+            </div>
+
+            <ul className="space-y-3 mb-8 text-left">
+              {plan.features.map((feature, index) => (
+                <li key={index} className="flex items-center text-white">
+                  <svg className="w-5 h-5 text-orange-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            <Button className="w-full bg-gradient-to-r from-orange-600 to-yellow-600 hover:from-orange-500 hover:to-yellow-500 text-white py-3 text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105">
+              Assinar Agora
+            </Button>
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            {plans.map((plan) => (
-              <div
-                key={plan.id}
-                className={`relative bg-gradient-to-b p-1 rounded-2xl transform transition-all duration-300 hover:scale-105 ${
-                  plan.id === 'vip' 
-                    ? 'border border-orange-500' 
-                    : 'border border-gray-600'
-                } ${
-                  plan.popular ? 'scale-105' : ''
-                }`}
-              >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-yellow-600 to-orange-600 px-4 py-2 rounded-full text-white text-sm font-bold">
-                    MAIS POPULAR
-                  </div>
-                )}
-                
-                <div className="bg-black rounded-2xl p-4 sm:p-6 lg:p-8 h-full">
-                  <div className="text-center mb-4 sm:mb-6">
-                    <div className={`inline-flex p-3 rounded-full bg-gradient-to-r ${plan.color} mb-4`}>
-                      {plan.icon}
-                    </div>
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">
-                      {plan.name}
-                    </h3>
-                    <div className="flex items-baseline justify-center">
-                      <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
-                        {plan.price}
-                      </span>
-                      <span className="text-gray-400 ml-1">
-                        {plan.period}
-                      </span>
+        {/* Seção de Depoimentos */}
+        <div className="mt-12">
+          <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-8">
+            {t('whatMembersSay')}
+          </h3>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="bg-gray-900/50 border border-gray-700 rounded-xl p-6">
+                <div className="flex items-center mb-4">
+                  <img 
+                    src={testimonial.avatar} 
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full mr-4"
+                  />
+                  <div>
+                    <h4 className="text-white font-semibold">{testimonial.name}</h4>
+                    <div className="flex text-yellow-400">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
                     </div>
                   </div>
-
-                  <ul className="space-y-3 mb-6 sm:mb-8">
-                    {plan.features.map((feature, index) => (
-                      <li key={index} className="flex items-center text-gray-300">
-                        <Check className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
-                        <span className="text-sm sm:text-base">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Button
-                    onClick={() => handleSubscribe(plan.id)}
-                    className={`w-full bg-gradient-to-r ${plan.color} hover:from-yellow-500 hover:to-orange-500 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105`}
-                  >
-                    Assinar {plan.name}
-                  </Button>
                 </div>
+                <p className="text-gray-300 italic">"{testimonial.comment}"</p>
               </div>
             ))}
-          </div>
-
-          {/* Seção de Comentários e Depoimentos */}
-          <div className="mt-8 sm:mt-12">
-            <TestimonialsSection />
-          </div>
-
-          <div className="mt-6 sm:mt-8 lg:mt-12 text-center">
-            <p className="text-gray-400 text-sm sm:text-base mb-4">
-              ✓ Cancele a qualquer momento • ✓ Sem compromisso • ✓ Acesso imediato
-            </p>
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
-              <span>Pagamento 100% seguro</span>
-              <span>•</span>
-              <span>Garantia de 7 dias</span>
-              <span>•</span>
-              <span>Suporte 24/7</span>
-            </div>
           </div>
         </div>
       </div>

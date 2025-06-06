@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Play, Crown, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -134,20 +133,11 @@ const MembersArea = () => {
           />
         </div>
 
-        {/* Coleção Premium */}
+        {/* Segundo carrossel da Elite Collection */}
         <div className="mt-16">
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Crown className="h-8 w-8 text-gray-400" />
-              <h2 className="text-3xl sm:text-4xl font-bold text-white">
-                {t('premiumCollection')}
-              </h2>
-            </div>
-          </div>
-          
           <SubscriberCarousel 
             onSubscriptionClick={() => setShowSubscriptionPlans(true)} 
-            collectionType="premium"
+            collectionType="elite"
           />
         </div>
       </div>

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
@@ -20,21 +21,104 @@ const SubscriberCarousel = ({ onSubscriptionClick, collectionType = 'exclusive' 
     }
   };
 
-  const getItemCount = () => {
-    return collectionType === 'exclusive' ? 30 : 10;
+  const getVideoData = () => {
+    if (collectionType === 'exclusive') {
+      return [
+        {
+          id: 1,
+          title: 'Conteúdo VIP 1',
+          duration: '12:45',
+          thumbnail: 'https://picsum.photos/400/600?random=1',
+          videoUrl: 'https://app.vidzflow.com/v/Yr3jMnKhpY?dq=576&ap=false&muted=false&loop=false&ctp=true&bv=false&piv=false&playsinline=false&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen',
+          isLocked: true,
+        },
+        {
+          id: 2,
+          title: 'Conteúdo VIP 2',
+          duration: '15:20',
+          thumbnail: 'https://picsum.photos/400/600?random=2',
+          videoUrl: 'https://app.vidzflow.com/v/0xYRP7KPWE?dq=576&ap=false&muted=false&loop=false&ctp=true&bv=false&piv=false&playsinline=false&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen',
+          isLocked: true,
+        },
+        {
+          id: 3,
+          title: 'Conteúdo VIP 3',
+          duration: '18:30',
+          thumbnail: 'https://picsum.photos/400/600?random=3',
+          videoUrl: 'https://app.vidzflow.com/v/NIBEKMQcTj?dq=576&ap=false&muted=false&loop=false&ctp=true&bv=false&piv=false&playsinline=false&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen',
+          isLocked: true,
+        },
+        {
+          id: 4,
+          title: 'Conteúdo VIP 4',
+          duration: '22:15',
+          thumbnail: 'https://picsum.photos/400/600?random=4',
+          videoUrl: 'https://app.vidzflow.com/v/E5Mr2OnBIn?dq=576&ap=false&muted=false&loop=false&ctp=true&bv=false&piv=false&playsinline=false&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen',
+          isLocked: true,
+        },
+        {
+          id: 5,
+          title: 'Conteúdo VIP 5',
+          duration: '14:55',
+          thumbnail: 'https://picsum.photos/400/600?random=5',
+          videoUrl: 'https://app.vidzflow.com/v/BeHlIKaK83?dq=576&ap=false&muted=false&loop=false&ctp=true&bv=false&piv=false&playsinline=false&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen',
+          isLocked: true,
+        },
+        {
+          id: 6,
+          title: 'Conteúdo VIP 6',
+          duration: '19:40',
+          thumbnail: 'https://picsum.photos/400/600?random=6',
+          videoUrl: 'https://app.vidzflow.com/v/ahYe0Ugcjz?dq=576&ap=false&muted=false&loop=false&ctp=true&bv=false&piv=false&playsinline=false&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen',
+          isLocked: true,
+        },
+        {
+          id: 7,
+          title: 'Conteúdo VIP 7',
+          duration: '16:25',
+          thumbnail: 'https://picsum.photos/400/600?random=7',
+          videoUrl: 'https://app.vidzflow.com/v/anjoc4e3cd?dq=576&ap=false&muted=false&loop=false&ctp=true&bv=false&piv=false&playsinline=false&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen',
+          isLocked: true,
+        },
+        {
+          id: 8,
+          title: 'Conteúdo VIP 8',
+          duration: '21:10',
+          thumbnail: 'https://picsum.photos/400/600?random=8',
+          videoUrl: 'https://app.vidzflow.com/v/QJVB7YhrOs?dq=576&ap=false&muted=false&loop=false&ctp=true&bv=false&piv=false&playsinline=false&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen',
+          isLocked: true,
+        },
+        {
+          id: 9,
+          title: 'Conteúdo VIP 9',
+          duration: '17:35',
+          thumbnail: 'https://picsum.photos/400/600?random=9',
+          videoUrl: 'https://app.vidzflow.com/v/FTLiEt41oO?dq=576&ap=false&muted=false&loop=false&ctp=true&bv=false&piv=false&playsinline=false&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen',
+          isLocked: true,
+        },
+        {
+          id: 10,
+          title: 'Conteúdo VIP 10',
+          duration: '20:50',
+          thumbnail: 'https://picsum.photos/400/600?random=10',
+          videoUrl: 'https://app.vidzflow.com/v/bapO0jZeD0?dq=576&ap=false&muted=false&loop=false&ctp=true&bv=false&piv=false&playsinline=false&bc=%234E5FFD&controls=play-large%2Cplay%2Cprogress%2Ccurrent-time%2Cmute%2Cvolume%2Csettings%2Cfullscreen',
+          isLocked: true,
+        }
+      ];
+    } else {
+      // Para elite e premium, gerar conteúdo placeholder
+      const count = 10;
+      return Array.from({ length: count }, (_, i) => ({
+        id: i + 1,
+        title: `Conteúdo ${i + 1}`,
+        duration: `${Math.floor(Math.random() * 20) + 5}:${Math.floor(Math.random() * 60).toString().padStart(2, '0')}`,
+        thumbnail: `https://picsum.photos/400/600?random=${i + 50}`,
+        isLocked: true,
+      }));
+    }
   };
 
-  const generatePlaceholderItems = (count: number) => {
-    return Array.from({ length: count }, (_, i) => ({
-      id: i + 1,
-      title: `Conteúdo ${i + 1}`,
-      duration: `${Math.floor(Math.random() * 20) + 5}:${Math.floor(Math.random() * 60).toString().padStart(2, '0')}`,
-      thumbnail: `https://picsum.photos/400/600?random=${i + 50}`,
-      isLocked: true,
-    }));
-  };
-
-  const items = generatePlaceholderItems(getItemCount());
+  const items = getVideoData();
 
   return (
     <div className="relative">
