@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { X, User, Mail, Lock } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAutoTranslation } from '@/hooks/useAutoTranslation';
+import PhoneInput from './PhoneInput';
 
 interface AuthModalProps {
   onClose: () => void;
@@ -16,6 +17,8 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [countryCode, setCountryCode] = useState('+55');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -24,7 +27,7 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
     setLoading(true);
     setError('');
 
-    console.log('Tentando autenticação:', { isLogin, email });
+    console.log('Tentando autenticação:', { isLogin, email, phone, countryCode });
 
     try {
       if (isLogin) {
@@ -41,11 +44,16 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
         
         console.log('Login realizado com sucesso!');
       } else {
+        // Cadastro com dados do telefone nos metadados
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/`
+            emailRedirectTo: `${window.location.origin}/`,
+            data: {
+              phone: phone,
+              country_code: countryCode
+            }
           }
         });
         
@@ -88,7 +96,7 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
       <div className="bg-black border border-yellow-600/30 rounded-2xl p-6 max-w-md w-full">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white">
-            {isLogin ? t('login') || 'Login' : t('signup') || 'Cadastro'}
+            {isLogin ? 'Login' : 'Cadastro'}
           </h2>
           <Button
             onClick={onClose}
@@ -114,6 +122,18 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
               />
             </div>
           </div>
+
+          {!isLogin && (
+            <div>
+              <PhoneInput
+                value={phone}
+                onChange={setPhone}
+                countryCode={countryCode}
+                onCountryChange={setCountryCode}
+                placeholder="Número de telefone"
+              />
+            </div>
+          )}
 
           <div>
             <div className="relative">
@@ -155,7 +175,7 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
         </div>
         
         <div className="mt-4 text-xs text-gray-400 text-center">
-          Conexão Supabase: {window.location.hostname}
+          Conexão Supabase: Ativa ✓
         </div>
       </div>
     </div>

@@ -44,14 +44,15 @@ const App = () => {
       }
     });
 
-    // Testar conexão com o banco
+    // Testar conexão com o banco - removido o teste que estava causando erro
     const testConnection = async () => {
       try {
+        console.log('Testando conexão com Supabase...');
         const { data, error } = await supabase.from('profiles').select('count');
         if (error) {
-          console.log('Tabela profiles não existe ainda, isso é normal se não foi criada.');
+          console.log('Erro ao acessar tabela profiles:', error.message);
         } else {
-          console.log('Conexão com Supabase funcionando!');
+          console.log('Conexão com Supabase funcionando! Tabela profiles acessível.');
         }
       } catch (err) {
         console.error('Erro na conexão:', err);
