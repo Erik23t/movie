@@ -19,6 +19,7 @@ const TopBar = ({ onSubscriptionClick }: TopBarProps) => {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     console.log('TopBar: Configurando auth listener...');
@@ -27,15 +28,20 @@ const TopBar = ({ onSubscriptionClick }: TopBarProps) => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         console.log('TopBar Auth event:', event, 'Session:', session);
-        setSession(session);
-        setUser(session?.user ?? null);
         
-        // Buscar perfil do usuário quando logado
-        if (session?.user) {
-          fetchUserProfile(session.user.id);
-        } else {
-          setUserProfile(null);
-        }
+        // Aguardar um pouco antes de atualizar o estado para garantir sincronização
+        setTimeout(() => {
+          setSession(session);
+          setUser(session?.user ?? null);
+          setIsInitialized(true);
+          
+          // Buscar perfil do usuário quando logado
+          if (session?.user) {
+            fetchUserProfile(session.user.id);
+          } else {
+            setUserProfile(null);
+          }
+        }, 50);
       }
     );
 
@@ -47,6 +53,7 @@ const TopBar = ({ onSubscriptionClick }: TopBarProps) => {
         console.log('TopBar: Sessão atual:', session);
         setSession(session);
         setUser(session?.user ?? null);
+        setIsInitialized(true);
         
         if (session?.user) {
           fetchUserProfile(session.user.id);
@@ -95,6 +102,11 @@ const TopBar = ({ onSubscriptionClick }: TopBarProps) => {
     console.log('Auth success - fechando modal');
     setShowAuthModal(false);
     setIsMobileMenuOpen(false);
+    
+    // Forçar uma pequena atualização da página para garantir que tudo seja renderizado corretamente
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   const handleSubscriptionClick = () => {
@@ -110,6 +122,20 @@ const TopBar = ({ onSubscriptionClick }: TopBarProps) => {
     setShowSubscriptionModal(false);
     console.log('Assinatura realizada com sucesso!');
   };
+
+  // Não renderizar até que a inicialização esteja completa
+  if (!isInitialized) {
+    return (
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-900 via-black to-gray-900 border-b border-yellow-600/30">
+        <div className="flex items-center justify-between px-4 py-3">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
+            VIP Club
+          </h1>
+          <div className="w-6 h-6 animate-pulse bg-gray-700 rounded"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

@@ -43,6 +43,12 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
         }
         
         console.log('Login realizado com sucesso!');
+        
+        // Aguardar um pequeno delay para garantir que o estado seja atualizado
+        setTimeout(() => {
+          onSuccess();
+        }, 100);
+        
       } else {
         // Cadastro com dados do telefone nos metadados
         const { data, error } = await supabase.auth.signUp({
@@ -69,9 +75,13 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
         }
         
         console.log('Cadastro realizado com sucesso!');
+        
+        // Aguardar um pequeno delay para garantir que o estado seja atualizado
+        setTimeout(() => {
+          onSuccess();
+        }, 100);
       }
       
-      onSuccess();
     } catch (error: any) {
       console.error('Erro na autenticação:', error);
       
