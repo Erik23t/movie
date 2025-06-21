@@ -54,6 +54,10 @@ const MembersArea = () => {
     setShowFullscreenVideo(true);
   };
 
+  const handleModelCarouselVideoClick = () => {
+    handleVideoClick("https://d29xs8vub7bm1d.cloudfront.net/Psychological%20_hack_%20-%201280x720%202604K.mp4");
+  };
+
   const handleVipVideoClick = () => {
     if (!user) {
       setShowLoginRequired(true);
@@ -168,7 +172,7 @@ const MembersArea = () => {
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 text-center text-white">
           {t('featuredModels')}
         </h2>
-        <ModelCarousel onVideoClick={handleVideoClick} onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
+        <ModelCarousel onVideoClick={handleModelCarouselVideoClick} onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
       </div>
 
       {/* Vídeo Principal Centralizado com Efeito de Sombreamento */}
