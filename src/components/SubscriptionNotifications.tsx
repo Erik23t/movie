@@ -130,13 +130,13 @@ const SubscriptionNotifications = () => {
       }, 5000);
     };
 
-    // Mostrar primeira notificação após 3 segundos
+    // Mostrar primeira notificação após 1 segundo
     timeoutId = setTimeout(() => {
       showNotification();
       
-      // Continuar mostrando a cada 40 segundos
-      intervalId = setInterval(showNotification, 40000);
-    }, 3000);
+      // Continuar mostrando a cada 2 segundos
+      intervalId = setInterval(showNotification, 2000);
+    }, 1000);
 
     return () => {
       clearTimeout(timeoutId);
@@ -148,30 +148,30 @@ const SubscriptionNotifications = () => {
 
   return (
     <div className="fixed bottom-4 left-4 z-50 animate-in slide-in-from-left duration-500">
-      <div className="bg-gradient-to-br from-gray-900 via-black to-gray-800 border border-green-500/30 rounded-2xl p-4 shadow-2xl max-w-sm backdrop-blur-lg">
+      <div className="bg-gradient-to-br from-gray-900/95 via-black/95 to-gray-800/95 border border-green-500/30 rounded-2xl p-4 shadow-2xl max-w-sm backdrop-blur-lg">
         <div className="flex items-center space-x-4">
           {/* Avatar com ícone do plano */}
           <div className="relative flex-shrink-0">
-            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-green-500/50">
+            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-green-500/50 ring-2 ring-green-400/30">
               <img
                 src={currentSubscriber.avatar}
                 alt={currentSubscriber.name}
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center">
+            <div className="absolute -top-1 -right-1 w-7 h-7 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
               {currentSubscriber.plan === 'VIP' ? (
-                <Crown className="h-3 w-3 text-white" />
+                <Crown className="h-4 w-4 text-white" />
               ) : (
-                <Star className="h-3 w-3 text-white" />
+                <Star className="h-4 w-4 text-white" />
               )}
             </div>
           </div>
           
           <div className="flex-1 min-w-0">
             <div className="flex items-center space-x-2 mb-1">
-              <span className="text-lg">{currentSubscriber.flag}</span>
-              <p className="text-sm font-semibold text-white truncate">
+              <span className="text-xl">{currentSubscriber.flag}</span>
+              <p className="text-sm font-bold text-white truncate">
                 {currentSubscriber.name}
               </p>
             </div>
@@ -181,7 +181,7 @@ const SubscriptionNotifications = () => {
             </p>
             
             <p className="text-xs text-green-300">
-              Assinou o plano <span className="font-semibold text-yellow-400">{currentSubscriber.plan}</span>
+              Assinou o plano <span className="font-bold text-yellow-400">{currentSubscriber.plan}</span>
             </p>
           </div>
           

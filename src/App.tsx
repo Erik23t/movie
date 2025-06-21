@@ -13,6 +13,7 @@ import Suporte from "./pages/Suporte";
 import TranslatedAgeVerification from "./components/TranslatedAgeVerification";
 import { TranslationProvider } from "./hooks/useAutoTranslation";
 import { supabase } from "@/integrations/supabase/client";
+import AdminDashboard from "./components/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -89,6 +90,7 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/termos" element={<Termos />} />
               <Route path="/privacidade" element={<Privacidade />} />
               <Route path="/suporte" element={<Suporte />} />
