@@ -54,6 +54,16 @@ const MembersArea = () => {
     setShowFullscreenVideo(true);
   };
 
+  const handleVipVideoClick = () => {
+    if (!user) {
+      setShowLoginRequired(true);
+      return;
+    }
+    // Para usuários logados, permitir acesso aos vídeos VIP
+    setCurrentVideoUrl("https://d29xs8vub7bm1d.cloudfront.net/Psychological%20_hack_%20-%201280x720%202604K.mp4");
+    setShowFullscreenVideo(true);
+  };
+
   const handleSampleVideoClick = () => {
     setShowSubscriptionPlans(true);
   };
@@ -200,7 +210,8 @@ const MembersArea = () => {
         
         <SubscriberCarousel 
           onSubscriptionClick={() => setShowSubscriptionPlans(true)} 
-          onVideoClick={handleVideoClick}
+          onVideoClick={handleVipVideoClick}
+          isFirstCarousel={true}
         />
 
         {/* Coleção Elite com destaque especial */}
@@ -232,7 +243,7 @@ const MembersArea = () => {
           
           <SubscriberCarousel 
             onSubscriptionClick={() => setShowSubscriptionPlans(true)} 
-            onVideoClick={handleVideoClick}
+            onVideoClick={handleVipVideoClick}
             collectionType="elite"
           />
         </div>
@@ -241,7 +252,7 @@ const MembersArea = () => {
         <div className="mt-16">
           <SubscriberCarousel 
             onSubscriptionClick={() => setShowSubscriptionPlans(true)} 
-            onVideoClick={handleVideoClick}
+            onVideoClick={handleVipVideoClick}
             collectionType="elite"
           />
         </div>

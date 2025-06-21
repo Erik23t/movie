@@ -124,10 +124,10 @@ const SubscriptionNotifications = () => {
       setCurrentSubscriber(randomSubscriber);
       setIsVisible(true);
 
-      // Esconder após 5 segundos
+      // Esconder após 4 segundos
       timeoutId = setTimeout(() => {
         setIsVisible(false);
-      }, 5000);
+      }, 4000);
     };
 
     // Mostrar primeira notificação após 1 segundo

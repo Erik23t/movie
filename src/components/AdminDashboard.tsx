@@ -36,42 +36,11 @@ const AdminDashboard = () => {
     newUsersToday: 0
   });
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchData();
-    
-    // Configurar real-time updates
-    const usersChannel = supabase
-      .channel('users-changes')
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'profiles' }, 
-        (payload) => {
-          console.log('Mudança nos usuários:', payload);
-          fetchData();
-        }
-      )
-      .subscribe();
-
-    const subscriptionsChannel = supabase
-      .channel('subscriptions-changes')
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'subscriptions' }, 
-        (payload) => {
-          console.log('Mudança nas assinaturas:', payload);
-          fetchData();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(usersChannel);
-      supabase.removeChannel(subscriptionsChannel);
-    };
-  }, []);
+  const [realtimeStatus, setRealtimeStatus] = useState('Conectando...');
 
   const fetchData = async () => {
     try {
-      setLoading(true);
+      console.log('Iniciando busca de dados...');
       
       // Buscar usuários
       const { data: usersData, error: usersError } = await supabase
@@ -82,6 +51,7 @@ const AdminDashboard = () => {
       if (usersError) {
         console.error('Erro ao buscar usuários:', usersError);
       } else {
+        console.log('Usuários encontrados:', usersData?.length || 0);
         setUsers(usersData || []);
       }
 
@@ -94,6 +64,7 @@ const AdminDashboard = () => {
       if (subscriptionsError) {
         console.error('Erro ao buscar assinaturas:', subscriptionsError);
       } else {
+        console.log('Assinaturas encontradas:', subscriptionsData?.length || 0);
         setSubscriptions(subscriptionsData || []);
       }
 
@@ -118,12 +89,73 @@ const AdminDashboard = () => {
         newUsersToday
       });
 
+      console.log('Estatísticas calculadas:', {
+        totalUsers: (usersData || []).length,
+        activeSubscriptions,
+        totalRevenue,
+        newUsersToday
+      });
+
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchData();
+    
+    // Configurar real-time updates com logs detalhados
+    console.log('Configurando canais em tempo real...');
+    
+    const usersChannel = supabase
+      .channel('users-realtime')
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'profiles' }, 
+        (payload) => {
+          console.log('🔥 TEMPO REAL - Mudança nos usuários:', payload);
+          setRealtimeStatus(`Usuário ${payload.eventType} - ${new Date().toLocaleTimeString()}`);
+          fetchData(); // Recarregar dados quando houver mudanças
+        }
+      )
+      .subscribe((status) => {
+        console.log('Status do canal de usuários:', status);
+        if (status === 'SUBSCRIBED') {
+          setRealtimeStatus('Conectado - Monitorando usuários');
+        }
+      });
+
+    const subscriptionsChannel = supabase
+      .channel('subscriptions-realtime')
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'subscriptions' }, 
+        (payload) => {
+          console.log('🔥 TEMPO REAL - Mudança nas assinaturas:', payload);
+          setRealtimeStatus(`Assinatura ${payload.eventType} - ${new Date().toLocaleTimeString()}`);
+          fetchData(); // Recarregar dados quando houver mudanças
+        }
+      )
+      .subscribe((status) => {
+        console.log('Status do canal de assinaturas:', status);
+        if (status === 'SUBSCRIBED') {
+          setRealtimeStatus('Conectado - Monitorando assinaturas');
+        }
+      });
+
+    // Atualizar dados a cada 30 segundos como backup
+    const interval = setInterval(() => {
+      console.log('Atualização automática dos dados...');
+      fetchData();
+    }, 30000);
+
+    return () => {
+      console.log('Limpando canais e intervalos...');
+      supabase.removeChannel(usersChannel);
+      supabase.removeChannel(subscriptionsChannel);
+      clearInterval(interval);
+    };
+  }, []);
 
   const formatCurrency = (amount: number, currency: string = 'USD') => {
     return new Intl.NumberFormat('pt-BR', {
@@ -148,6 +180,7 @@ const AdminDashboard = () => {
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
           <p className="mt-4 text-xl">Carregando dashboard...</p>
+          <p className="mt-2 text-sm text-gray-400">Conectando ao banco de dados...</p>
         </div>
       </div>
     );
@@ -166,9 +199,17 @@ const AdminDashboard = () => {
               Monitoramento em tempo real da plataforma
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-green-400 text-sm">Conectado ao Supabase</span>
+          <div className="flex flex-col items-end gap-2">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-green-400 text-sm">Conectado ao Supabase</span>
+            </div>
+            <div className="text-xs text-gray-400">
+              Status: {realtimeStatus}
+            </div>
+            <div className="text-xs text-gray-500">
+              Última atualização: {new Date().toLocaleTimeString()}
+            </div>
           </div>
         </div>
 
@@ -179,6 +220,9 @@ const AdminDashboard = () => {
               <div>
                 <p className="text-gray-400 text-sm">Total de Usuários</p>
                 <p className="text-3xl font-bold text-white">{stats.totalUsers}</p>
+                <p className="text-xs text-green-400 mt-1">
+                  +{stats.newUsersToday} hoje
+                </p>
               </div>
               <Users className="h-8 w-8 text-blue-400" />
             </div>
@@ -189,6 +233,9 @@ const AdminDashboard = () => {
               <div>
                 <p className="text-gray-400 text-sm">Assinaturas Ativas</p>
                 <p className="text-3xl font-bold text-white">{stats.activeSubscriptions}</p>
+                <p className="text-xs text-yellow-400 mt-1">
+                  {subscriptions.length} total
+                </p>
               </div>
               <Crown className="h-8 w-8 text-yellow-400" />
             </div>
@@ -199,6 +246,9 @@ const AdminDashboard = () => {
               <div>
                 <p className="text-gray-400 text-sm">Receita Total</p>
                 <p className="text-3xl font-bold text-white">{formatCurrency(stats.totalRevenue)}</p>
+                <p className="text-xs text-green-400 mt-1">
+                  {subscriptions.length} transações
+                </p>
               </div>
               <TrendingUp className="h-8 w-8 text-green-400" />
             </div>
@@ -209,6 +259,9 @@ const AdminDashboard = () => {
               <div>
                 <p className="text-gray-400 text-sm">Novos Hoje</p>
                 <p className="text-3xl font-bold text-white">{stats.newUsersToday}</p>
+                <p className="text-xs text-purple-400 mt-1">
+                  Cadastros de hoje
+                </p>
               </div>
               <Calendar className="h-8 w-8 text-purple-400" />
             </div>
@@ -222,8 +275,11 @@ const AdminDashboard = () => {
             <div className="p-6 border-b border-gray-700">
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 <Users className="h-5 w-5" />
-                Usuários Recentes
+                Usuários Recentes ({users.length})
               </h2>
+              <p className="text-sm text-gray-400 mt-1">
+                Atualização em tempo real
+              </p>
             </div>
             <div className="p-6">
               <Table>
@@ -248,6 +304,13 @@ const AdminDashboard = () => {
                       </TableCell>
                     </TableRow>
                   ))}
+                  {users.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={3} className="text-center text-gray-400 py-8">
+                        Nenhum usuário encontrado
+                      </TableCell>
+                    </TableRow>
+                  )}
                 </TableBody>
               </Table>
             </div>
@@ -258,8 +321,11 @@ const AdminDashboard = () => {
             <div className="p-6 border-b border-gray-700">
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 <Crown className="h-5 w-5" />
-                Assinaturas Recentes
+                Assinaturas Recentes ({subscriptions.length})
               </h2>
+              <p className="text-sm text-gray-400 mt-1">
+                Atualização em tempo real
+              </p>
             </div>
             <div className="p-6">
               <Table>
@@ -290,6 +356,13 @@ const AdminDashboard = () => {
                       </TableCell>
                     </TableRow>
                   ))}
+                  {subscriptions.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={3} className="text-center text-gray-400 py-8">
+                        Nenhuma assinatura encontrada
+                      </TableCell>
+                    </TableRow>
+                  )}
                 </TableBody>
               </Table>
             </div>
