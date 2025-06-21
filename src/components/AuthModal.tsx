@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { X, User, Mail, Lock } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAutoTranslation } from '@/hooks/useAutoTranslation';
-import PhoneInput from './PhoneInput';
 
 interface AuthModalProps {
   onClose: () => void;
@@ -17,8 +16,6 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const [countryCode, setCountryCode] = useState('+55');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -27,7 +24,7 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
     setLoading(true);
     setError('');
 
-    console.log('Tentando autenticação:', { isLogin, email, phone, countryCode });
+    console.log('Tentando autenticação:', { isLogin, email });
 
     try {
       if (isLogin) {
@@ -50,16 +47,12 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
         }, 100);
         
       } else {
-        // Cadastro com dados do telefone nos metadados
+        // Cadastro simplificado apenas com email e senha
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/`,
-            data: {
-              phone: phone,
-              country_code: countryCode
-            }
+            emailRedirectTo: `${window.location.origin}/`
           }
         });
         
@@ -132,18 +125,6 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
               />
             </div>
           </div>
-
-          {!isLogin && (
-            <div>
-              <PhoneInput
-                value={phone}
-                onChange={setPhone}
-                countryCode={countryCode}
-                onCountryChange={setCountryCode}
-                placeholder="Número de telefone"
-              />
-            </div>
-          )}
 
           <div>
             <div className="relative">

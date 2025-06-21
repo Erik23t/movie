@@ -1,7 +1,8 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Play, Crown, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { supabase } from '@/integrations/supabase/client';
 import VideoPlayer from './VideoPlayer';
 import ModelCarousel from './ModelCarousel';
 import SubscriberCarousel from './SubscriberCarousel';
@@ -10,6 +11,9 @@ import SampleVideoCarousel from './SampleVideoCarousel';
 import TestimonialsSection from './TestimonialsSection';
 import TopBar from './TopBar';
 import FullscreenVideoPlayer from './FullscreenVideoPlayer';
+import LoginRequiredModal from './LoginRequiredModal';
+import AuthModal from './AuthModal';
+import { TestimonialsSection as TestimonialsMarquee } from './ui/testimonials-with-marquee';
 import { useAutoTranslation } from '@/hooks/useAutoTranslation';
 
 const MembersArea = () => {
@@ -17,12 +21,95 @@ const MembersArea = () => {
   const [showVideo, setShowVideo] = useState(false);
   const [showSubscriptionPlans, setShowSubscriptionPlans] = useState(false);
   const [showFullscreenVideo, setShowFullscreenVideo] = useState(false);
+  const [showLoginRequired, setShowLoginRequired] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [currentVideoUrl, setCurrentVideoUrl] = useState('');
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Verificar se o usuário está logado
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+    };
+
+    checkUser();
+
+    // Listener para mudanças de autenticação
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleVideoClick = (videoUrl: string) => {
+    if (!user) {
+      setShowLoginRequired(true);
+      return;
+    }
     setCurrentVideoUrl(videoUrl);
     setShowFullscreenVideo(true);
   };
+
+  const handleLoginRequiredClose = () => {
+    setShowLoginRequired(false);
+  };
+
+  const handleLoginClick = () => {
+    setShowLoginRequired(false);
+    setShowAuthModal(true);
+  };
+
+  const handleAuthSuccess = () => {
+    setShowAuthModal(false);
+  };
+
+  // Dados dos testemunhos
+  const testimonials = [
+    {
+      author: {
+        name: "Carlos Rodriguez",
+        handle: "@carlostech",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+      },
+      text: "Conteúdo incrível! Vale cada centavo da assinatura. Qualidade excepcional e sempre conteúdo novo."
+    },
+    {
+      author: {
+        name: "Michael Johnson",
+        handle: "@mjohnson",
+        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+      },
+      text: "A melhor plataforma que já usei. Interface perfeita e conteúdo de alta qualidade sempre atualizado."
+    },
+    {
+      author: {
+        name: "João Silva",
+        handle: "@joaosilva",
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"
+      },
+      text: "Simplesmente fantástico! Recomendo para todos que buscam conteúdo premium de verdade."
+    },
+    {
+      author: {
+        name: "David Wilson",
+        handle: "@davidwtech",
+        avatar: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=150&h=150&fit=crop&crop=face"
+      },
+      text: "Excelente custo-benefício. O suporte é incrível e o conteúdo sempre surpreende."
+    },
+    {
+      author: {
+        name: "André Müller",
+        handle: "@andremuller",
+        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face"
+      },
+      text: "Qualidade incomparável! Cada vídeo é uma experiência única. Vale muito a pena."
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -41,7 +128,7 @@ const MembersArea = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
               <Button 
-                onClick={() => setShowVideo(true)}
+                onClick={() => handleVideoClick("https://d29xs8vub7bm1d.cloudfront.net/Psychological%20_hack_%20-%201280x720%202604K.mp4")}
                 className="bg-white text-black hover:bg-gray-200 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105"
               >
                 <Play className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
@@ -67,7 +154,7 @@ const MembersArea = () => {
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 text-center text-white">
           {t('featuredModels')}
         </h2>
-        <ModelCarousel onVideoClick={() => setShowVideo(true)} onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
+        <ModelCarousel onVideoClick={handleVideoClick} onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
       </div>
 
       {/* Vídeo Principal Centralizado com Efeito de Sombreamento */}
@@ -141,7 +228,7 @@ const MembersArea = () => {
           
           <SubscriberCarousel 
             onSubscriptionClick={() => setShowSubscriptionPlans(true)} 
-            onVideoClick={() => setShowSubscriptionPlans(true)}
+            onVideoClick={handleVideoClick}
             collectionType="elite"
           />
         </div>
@@ -150,11 +237,18 @@ const MembersArea = () => {
         <div className="mt-16">
           <SubscriberCarousel 
             onSubscriptionClick={() => setShowSubscriptionPlans(true)} 
-            onVideoClick={() => setShowSubscriptionPlans(true)}
+            onVideoClick={handleVideoClick}
             collectionType="elite"
           />
         </div>
       </div>
+
+      {/* Testemunhos dos Assinantes */}
+      <TestimonialsMarquee
+        title="O que nossos membros VIP dizem"
+        description="Junte-se a milhares de usuários satisfeitos que já descobriram o melhor conteúdo premium"
+        testimonials={testimonials}
+      />
 
       {/* Player de Vídeo */}
       {showVideo && (
@@ -169,6 +263,22 @@ const MembersArea = () => {
         <FullscreenVideoPlayer 
           videoUrl={currentVideoUrl}
           onClose={() => setShowFullscreenVideo(false)}
+        />
+      )}
+
+      {/* Modal de Login Necessário */}
+      {showLoginRequired && (
+        <LoginRequiredModal
+          onClose={handleLoginRequiredClose}
+          onLoginClick={handleLoginClick}
+        />
+      )}
+
+      {/* Modal de Autenticação */}
+      {showAuthModal && (
+        <AuthModal
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={handleAuthSuccess}
         />
       )}
 
