@@ -54,6 +54,10 @@ const MembersArea = () => {
     setShowFullscreenVideo(true);
   };
 
+  const handleSampleVideoClick = () => {
+    setShowSubscriptionPlans(true);
+  };
+
   const handleLoginRequiredClose = () => {
     setShowLoginRequired(false);
   };
@@ -164,7 +168,7 @@ const MembersArea = () => {
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center text-white relative z-20">
           {t('sampleContent')}
         </h2>
-        <SampleVideoCarousel onSubscriptionClick={() => setShowSubscriptionPlans(true)} />
+        <SampleVideoCarousel onSubscriptionClick={handleSampleVideoClick} />
       </div>
 
       {/* Carrossel Exclusivo para Assinantes */}
