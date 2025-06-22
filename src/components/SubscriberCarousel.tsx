@@ -1,19 +1,17 @@
 
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Crown, Star, Lock, Play } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star, Lock, Play } from 'lucide-react';
 import { useSwipeable } from 'react-swipeable';
 
 interface SubscriberCarouselProps {
   onSubscriptionClick: () => void;
   onVideoClick: () => void;
-  collectionType?: 'vip' | 'elite';
   isFirstCarousel?: boolean;
 }
 
 const SubscriberCarousel = ({ 
   onSubscriptionClick, 
   onVideoClick, 
-  collectionType = 'vip',
   isFirstCarousel = false
 }: SubscriberCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -83,46 +81,7 @@ const SubscriberCarousel = ({
     }
   ];
 
-  const eliteContent = [
-    {
-      id: 11,
-      image: "https://i.postimg.cc/8z2Zfyjt/bab136ac-395d-455f-8748-715403cabae6.jpg",
-      title: "Elite Collection 1",
-      videoUrl: "https://d29xs8vub7bm1d.cloudfront.net/Psychological%20_hack_%20-%201280x720%202604K.mp4"
-    },
-    {
-      id: 12,
-      image: "https://i.postimg.cc/0NSHVTLT/39c9af01-465c-460d-8b98-abf8cda14bc1.jpg",
-      title: "Elite Collection 2",
-      videoUrl: "https://d29xs8vub7bm1d.cloudfront.net/Psychological%20_hack_%20-%201280x720%202604K.mp4"
-    },
-    {
-      id: 13,
-      image: "https://i.postimg.cc/7LrNZfWR/3dada236-0854-46c0-a3e8-b30dcf9445ac.jpg",
-      title: "Elite Collection 3",
-      videoUrl: "https://d29xs8vub7bm1d.cloudfront.net/Psychological%20_hack_%20-%201280x720%202604K.mp4"
-    },
-    {
-      id: 14,
-      image: "https://i.postimg.cc/ZRFsSrYj/c45ac9fd-11cf-4ce3-aae9-ec6ba532a40a.jpg",
-      title: "Elite Collection 4",
-      videoUrl: "https://d29xs8vub7bm1d.cloudfront.net/Psychological%20_hack_%20-%201280x720%202604K.mp4"
-    },
-    {
-      id: 15,
-      image: "https://i.postimg.cc/xC9YRZDf/3cfc6e67-f95f-42c4-9cdc-89aeb2820a10.jpg",
-      title: "Elite Collection 5",
-      videoUrl: "https://d29xs8vub7bm1d.cloudfront.net/Psychological%20_hack_%20-%201280x720%202604K.mp4"
-    },
-    {
-      id: 16,
-      image: "https://i.postimg.cc/hjMn30c9/2661ed2c-7a46-4c61-bf61-3af5ec1b5199.jpg",
-      title: "Elite Collection 6",
-      videoUrl: "https://d29xs8vub7bm1d.cloudfront.net/Psychological%20_hack_%20-%201280x720%202604K.mp4"
-    }
-  ];
-
-  const content = collectionType === 'elite' ? eliteContent : vipContent;
+  const content = vipContent;
 
   useEffect(() => {
     const handleResize = () => {
@@ -213,13 +172,9 @@ const SubscriberCarousel = ({
                     /* Overlay para outras fileiras */
                     <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center opacity-100 transition-opacity duration-300">
                       <Lock className="h-12 w-12 text-white mb-4" />
-                      {collectionType === 'elite' ? (
-                        <Crown className="h-8 w-8 text-orange-500 mb-2" />
-                      ) : (
-                        <Star className="h-8 w-8 text-yellow-500 mb-2" />
-                      )}
+                      <Star className="h-8 w-8 text-yellow-500 mb-2" />
                       <p className="text-white text-sm font-semibold mb-4 text-center px-4">
-                        {collectionType === 'elite' ? 'Conteúdo Elite VIP' : 'Conteúdo Exclusivo VIP'}
+                        Conteúdo Exclusivo VIP
                       </p>
                       <button
                         onClick={onSubscriptionClick}

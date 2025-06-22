@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { Star, Crown } from 'lucide-react';
+import { Star, Crown, UserPlus } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Subscriber {
   name: string;
@@ -8,6 +9,7 @@ interface Subscriber {
   flag: string;
   plan: string;
   avatar: string;
+  isNewUser?: boolean;
 }
 
 const subscribers: Subscriber[] = [
@@ -16,106 +18,143 @@ const subscribers: Subscriber[] = [
     country: "España", 
     flag: "🇪🇸", 
     plan: "VIP",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "Michael Johnson", 
     country: "Estados Unidos", 
     flag: "🇺🇸", 
     plan: "Premium",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "João Silva", 
     country: "Brasil", 
     flag: "🇧🇷", 
     plan: "VIP",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "David Wilson", 
     country: "Estados Unidos", 
     flag: "🇺🇸", 
     plan: "Premium",
-    avatar: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "André Müller", 
     country: "Alemanha", 
     flag: "🇩🇪", 
     plan: "VIP",
-    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "James Smith", 
     country: "Estados Unidos", 
     flag: "🇺🇸", 
     plan: "Premium",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "Pablo García", 
     country: "España", 
     flag: "🇪🇸", 
     plan: "VIP",
-    avatar: "https://images.unsplash.com/photo-1558203728-00f45181dd84?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1558203728-00f45181dd84?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "Ricardo Santos", 
     country: "Brasil", 
     flag: "🇧🇷", 
     plan: "Premium",
-    avatar: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "Lucas Martins", 
     country: "Brasil", 
     flag: "🇧🇷", 
     plan: "VIP",
-    avatar: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "Thomas Anderson", 
     country: "Estados Unidos", 
     flag: "🇺🇸", 
     plan: "Premium",
-    avatar: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "Hans Fischer", 
     country: "Alemanha", 
     flag: "🇩🇪", 
     plan: "VIP",
-    avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "Diego López", 
     country: "España", 
     flag: "🇪🇸", 
     plan: "Premium",
-    avatar: "https://images.unsplash.com/photo-1584999734482-0361aecad844?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1584999734482-0361aecad844?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "Klaus Weber", 
     country: "Alemanha", 
     flag: "🇩🇪", 
     plan: "VIP",
-    avatar: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   },
   { 
     name: "Roberto Fernandez", 
     country: "França", 
     flag: "🇫🇷", 
     plan: "Premium",
-    avatar: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=80&h=80&fit=crop&crop=face"
+    avatar: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=80&h=80&fit=crop&crop=face",
+    isNewUser: true
   }
 ];
 
 const SubscriptionNotifications = () => {
   const [currentSubscriber, setCurrentSubscriber] = useState<Subscriber | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // Verificar se o usuário está logado
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+    };
+
+    checkUser();
+
+    // Listener para mudanças de autenticação
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    // Só mostrar notificações se o usuário não estiver logado
+    if (user) return;
+
     let timeoutId: NodeJS.Timeout;
     let intervalId: NodeJS.Timeout;
 
@@ -142,15 +181,15 @@ const SubscriptionNotifications = () => {
       clearTimeout(timeoutId);
       clearInterval(intervalId);
     };
-  }, []);
+  }, [user]);
 
-  if (!isVisible || !currentSubscriber) return null;
+  if (!isVisible || !currentSubscriber || user) return null;
 
   return (
     <div className="fixed bottom-4 left-4 z-50 animate-in slide-in-from-left duration-500">
       <div className="bg-gradient-to-br from-gray-900/95 via-black/95 to-gray-800/95 border border-green-500/30 rounded-2xl p-4 shadow-2xl max-w-sm backdrop-blur-lg">
         <div className="flex items-center space-x-4">
-          {/* Avatar com ícone do plano */}
+          {/* Avatar com ícone */}
           <div className="relative flex-shrink-0">
             <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-green-500/50 ring-2 ring-green-400/30">
               <img
@@ -159,12 +198,8 @@ const SubscriptionNotifications = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="absolute -top-1 -right-1 w-7 h-7 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
-              {currentSubscriber.plan === 'VIP' ? (
-                <Crown className="h-4 w-4 text-white" />
-              ) : (
-                <Star className="h-4 w-4 text-white" />
-              )}
+            <div className="absolute -top-1 -right-1 w-7 h-7 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
+              <UserPlus className="h-4 w-4 text-white" />
             </div>
           </div>
           
@@ -181,7 +216,7 @@ const SubscriptionNotifications = () => {
             </p>
             
             <p className="text-xs text-green-300">
-              Assinou o plano <span className="font-bold text-yellow-400">{currentSubscriber.plan}</span>
+              <span className="font-bold text-green-400">Novo usuário cadastrado</span>
             </p>
           </div>
           
