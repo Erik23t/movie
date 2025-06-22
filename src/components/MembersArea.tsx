@@ -80,6 +80,14 @@ const MembersArea = () => {
     setShowSubscriptionPlans(true);
   };
 
+  const handleEliteContentClick = () => {
+    if (!user) {
+      setShowLoginRequired(true);
+      return;
+    }
+    // Adicionar lógica para conteúdo elite se necessário
+  };
+
   const handleLoginRequiredClose = () => {
     setShowLoginRequired(false);
   };
@@ -224,6 +232,40 @@ const MembersArea = () => {
           onSubscriptionClick={handleSubscriptionClick} 
           onVideoClick={handleVipVideoClick}
           isFirstCarousel={true}
+        />
+      </div>
+
+      {/* Carrosséis do Conteúdo Elite */}
+      <div className="py-8 sm:py-16 px-4 sm:px-8 bg-gradient-to-b from-black via-gray-900 to-black">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-center text-white">
+          Coleção Elite
+        </h2>
+        <p className="text-lg sm:text-xl text-gray-300 text-center mb-6 sm:mb-8">
+          Conteúdo exclusivo da mais alta qualidade
+        </p>
+        
+        <SubscriberCarousel 
+          onSubscriptionClick={handleEliteContentClick} 
+          onVideoClick={handleEliteContentClick}
+          isFirstCarousel={false}
+        />
+      </div>
+
+      {/* Segundo Carrossel Elite */}
+      <div className="py-8 sm:py-16 px-4 sm:px-8 bg-gradient-to-b from-black via-gray-900 to-black">
+        <SubscriberCarousel 
+          onSubscriptionClick={handleEliteContentClick} 
+          onVideoClick={handleEliteContentClick}
+          isFirstCarousel={false}
+        />
+      </div>
+
+      {/* Terceiro Carrossel Elite */}
+      <div className="py-8 sm:py-16 px-4 sm:px-8 bg-gradient-to-b from-black via-gray-900 to-black">
+        <SubscriberCarousel 
+          onSubscriptionClick={handleEliteContentClick} 
+          onVideoClick={handleEliteContentClick}
+          isFirstCarousel={false}
         />
       </div>
 
