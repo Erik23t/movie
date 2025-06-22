@@ -14,6 +14,7 @@ interface AuthModalProps {
 const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
   const { t } = useAutoTranslation();
   const [isLogin, setIsLogin] = useState(true);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -24,7 +25,7 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
     setLoading(true);
     setError('');
 
-    console.log('Tentando autenticação:', { isLogin, email });
+    console.log('Tentando autenticação:', { isLogin, email, name: !isLogin ? name : 'N/A' });
 
     try {
       if (isLogin) {
@@ -47,12 +48,15 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
         }, 100);
         
       } else {
-        // Cadastro simplificado apenas com email e senha
+        // Cadastro com nome, email e senha
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/`
+            emailRedirectTo: `${window.location.origin}/`,
+            data: {
+              name: name, // Incluir o nome nos metadados do usuário
+            }
           }
         });
         
@@ -65,6 +69,18 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
         if (data.user && !data.session) {
           setError('Verifique seu email para confirmar a conta!');
           return;
+        }
+        
+        // Se o usuário foi criado com sucesso, atualizar o perfil com o nome
+        if (data.user) {
+          const { error: profileError } = await supabase
+            .from('profiles')
+            .update({ name: name })
+            .eq('id', data.user.id);
+          
+          if (profileError) {
+            console.error('Erro ao atualizar perfil:', profileError);
+          }
         }
         
         console.log('Cadastro realizado com sucesso!');
@@ -112,6 +128,22 @@ const AuthModal = ({ onClose, onSuccess }: AuthModalProps) => {
         </div>
 
         <form onSubmit={handleAuth} className="space-y-4">
+          {!isLogin && (
+            <div>
+              <div className="relative">
+                <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                <Input
+                  type="text"
+                  placeholder="Nome completo"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="pl-10 bg-gray-900 border-gray-600 text-white"
+                  required={!isLogin}
+                />
+              </div>
+            </div>
+          )}
+
           <div>
             <div className="relative">
               <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
